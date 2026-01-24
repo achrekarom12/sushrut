@@ -1,50 +1,82 @@
 import { v4 as uuidv4 } from 'uuid';
 import { User, CreateUserDTO, UpdateUserDTO } from '../types/user';
+import { db } from './db.service';
 
 class UserService {
-    private users: User[] = [];
-
     async getAll(): Promise<User[]> {
-        return this.users;
+        const result = await db.execute('SELECT * FROM users');
+        return result.rows as unknown as User[];
     }
 
     async getById(id: string): Promise<User | undefined> {
-        return this.users.find(u => u.id === id);
+        const result = await db.execute({
+            sql: 'SELECT * FROM users WHERE id = ?',
+            args: [id]
+        });
+        return result.rows[0] as unknown as User | undefined;
     }
 
     async create(userData: CreateUserDTO): Promise<User> {
-        const newUser: User = {
-            id: uuidv4(),
+        const id = uuidv4();
+        const createdAt = new Date().toISOString();
+
+        await db.execute({
+            sql: 'INSERT INTO users (id, name, age, phonenumber, gender, password, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            args: [
+                id,
+                userData.name,
+                userData.age,
+                userData.phonenumber,
+                userData.gender,
+                userData.password || null,
+                createdAt
+            ]
+        });
+
+        return {
+            id,
             ...userData,
+            createdAt
         };
-        this.users.push(newUser);
-        return newUser;
     }
 
     async update(id: string, userData: UpdateUserDTO): Promise<User | undefined> {
-        const index = this.users.findIndex(u => u.id === id);
-        if (index === -1) return undefined;
-
-        const currentUser = this.users[index];
+        const currentUser = await this.getById(id);
         if (!currentUser) return undefined;
 
-        const updatedUser: User = {
-            id: currentUser.id,
-            firstname: userData.firstname ?? currentUser.firstname,
-            lastname: userData.lastname ?? currentUser.lastname,
-            mobileNumber: userData.mobileNumber ?? currentUser.mobileNumber,
-            email: userData.email ?? currentUser.email,
+        const updatedUser = {
+            name: userData.name ?? currentUser.name,
+            age: userData.age ?? currentUser.age,
+            phonenumber: userData.phonenumber ?? currentUser.phonenumber,
+            gender: userData.gender ?? currentUser.gender,
+            password: userData.password ?? currentUser.password,
         };
-        this.users[index] = updatedUser;
-        return updatedUser;
+
+        await db.execute({
+            sql: 'UPDATE users SET name = ?, age = ?, phonenumber = ?, gender = ?, password = ? WHERE id = ?',
+            args: [
+                updatedUser.name,
+                updatedUser.age,
+                updatedUser.phonenumber,
+                updatedUser.gender,
+                updatedUser.password || null,
+                id
+            ]
+        });
+
+        return {
+            id,
+            ...updatedUser,
+            createdAt: currentUser.createdAt
+        };
     }
 
     async delete(id: string): Promise<boolean> {
-        const index = this.users.findIndex(u => u.id === id);
-        if (index === -1) return false;
-
-        this.users.splice(index, 1);
-        return true;
+        const result = await db.execute({
+            sql: 'DELETE FROM users WHERE id = ?',
+            args: [id]
+        });
+        return result.rowsAffected > 0;
     }
 }
 

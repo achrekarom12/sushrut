@@ -1,21 +1,25 @@
 export interface User {
   id: string;
-  firstname: string;
-  lastname: string;
-  mobileNumber: string;
-  email: string;
+  name: string;
+  age: number;
+  phonenumber: string;
+  gender: string;
+  password?: string;
+  createdAt: string;
 }
 
 export interface CreateUserDTO {
-  firstname: string;
-  lastname: string;
-  mobileNumber: string;
-  email: string;
+  name: string;
+  age: number;
+  phonenumber: string;
+  gender: string;
+  password?: string;
 }
 
 export interface UpdateUserDTO {
-  firstname?: string;
-  lastname?: string;
-  mobileNumber?: string;
-  email?: string;
+  name?: string;
+  age?: number;
+  phonenumber?: string;
+  gender?: string;
+  password?: string;
 }
