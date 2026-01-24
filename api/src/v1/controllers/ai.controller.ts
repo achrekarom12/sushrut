@@ -3,13 +3,18 @@ import { initializeAgent } from "../services/ai.service";
 
 interface AIChatRequest {
     text: string;
+    userId: string;
 }
 
 export async function chat(request: FastifyRequest<{ Body: AIChatRequest }>, reply: FastifyReply) {
-    const { text } = request.body;
+    const { text, userId } = request.body;
 
     if (!text) {
         return reply.code(400).send({ message: "Text is required" });
+    }
+
+    if (!userId) {
+        return reply.code(400).send({ message: "UserId is required" });
     }
 
     try {

@@ -91,11 +91,23 @@ if (chatForm) {
     chatForm.addEventListener('submit', handleSendMessage);
 }
 
-function handleSendMessage(e) {
+async function handleSendMessage(e) {
     e.preventDefault();
 
     const message = messageInput.value.trim();
     if (!message) return;
+
+    // Get user data for userId
+    const savedData = localStorage.getItem(STORAGE_KEYS.USER_DATA);
+    let userId = 'anonymous';
+    if (savedData) {
+        try {
+            const user = JSON.parse(savedData);
+            userId = user.id || user.user_id || user.id || 'anonymous';
+        } catch (e) {
+            console.error('Error parsing user data:', e);
+        }
+    }
 
     // Add sent message
     addMessage(message, 'sent');
@@ -103,18 +115,56 @@ function handleSendMessage(e) {
     // Clear input
     messageInput.value = '';
 
-    // Simulate a response after a short delay
-    setTimeout(() => {
-        const responses = [
-            "Thanks for your message. How else can I assist you?",
-            "I'm here to help with your healthcare needs.",
-            "Got it! Is there anything specific you'd like to know?",
-            "I understand. Let me know if you have any other questions.",
-            "That's noted. How can I further assist you today?"
-        ];
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        addMessage(randomResponse, 'received');
-    }, 1000);
+    // Add typing indicator
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message received typing';
+    typingDiv.innerHTML = `
+        <div class="message-avatar">🏥</div>
+        <div class="message-content">
+            <div class="message-text">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    `;
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/ai/chat`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                text: message,
+                userId: userId.toString()
+            })
+        });
+
+        // Remove typing indicator
+        if (typingDiv && typingDiv.parentNode) {
+            chatMessages.removeChild(typingDiv);
+        }
+
+        if (response.ok) {
+            const data = await response.json();
+            addMessage(data.text, 'received');
+        } else {
+            console.error('API Error:', response.statusText);
+            addMessage("I'm sorry, I'm having trouble responding right now. Please try again later.", 'received');
+        }
+    } catch (error) {
+        // Remove typing indicator if it exists
+        if (typingDiv && typingDiv.parentNode) {
+            chatMessages.removeChild(typingDiv);
+        }
+        console.error('Chat error:', error);
+        addMessage("Unable to connect to the medical assistant. Please check your internet connection.", 'received');
+    }
 }
 
 // Add message to chat
