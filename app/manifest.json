@@ -4,8 +4,8 @@
     "description": "A modern Progressive Web App with offline capabilities",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#14141a",
-    "theme_color": "#6366f1",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
     "orientation": "portrait-primary",
     "icons": [
         {

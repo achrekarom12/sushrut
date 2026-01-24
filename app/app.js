@@ -4,6 +4,12 @@ const CREDENTIALS = {
     password: 'password123'
 };
 
+// LocalStorage Keys
+const STORAGE_KEYS = {
+    USER_DATA: 'sushrut_user_data',
+    IS_LOGGED_IN: 'sushrut_logged_in'
+};
+
 // Get DOM elements
 const loginScreen = document.getElementById('login-screen');
 const chatScreen = document.getElementById('chat-screen');
@@ -12,6 +18,21 @@ const chatForm = document.getElementById('chat-form');
 const chatMessages = document.getElementById('chat-messages');
 const messageInput = document.getElementById('message-input');
 const logoutBtn = document.getElementById('logout-btn');
+
+// Sidebar elements
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebar-overlay');
+const menuBtn = document.getElementById('menu-btn');
+const closeSidebarBtn = document.getElementById('close-sidebar');
+const settingsBtn = document.getElementById('settings-btn');
+
+// Settings modal elements
+const settingsModal = document.getElementById('settings-modal');
+const settingsForm = document.getElementById('settings-form');
+const closeSettingsBtn = document.getElementById('close-settings');
+const userNameInput = document.getElementById('user-name');
+const userAgeInput = document.getElementById('user-age');
+const userGenderInput = document.getElementById('user-gender');
 
 // Login Form Handler
 if (loginForm) {
@@ -26,8 +47,14 @@ function handleLogin(e) {
 
     // Validate against hardcoded credentials
     if (mobile === CREDENTIALS.mobile && password === CREDENTIALS.password) {
+        // Mark as logged in
+        localStorage.setItem(STORAGE_KEYS.IS_LOGGED_IN, 'true');
+
         // Success - Show chat screen
         showChatScreen();
+
+        // Load user data if exists
+        loadUserData();
     } else {
         alert('Invalid credentials! Please use:\nMobile: 9876543210\nPassword: password123');
     }
@@ -109,6 +136,9 @@ function showLoginScreen() {
     chatScreen.classList.add('hidden');
     loginScreen.classList.remove('hidden');
 
+    // Clear login status
+    localStorage.removeItem(STORAGE_KEYS.IS_LOGGED_IN);
+
     // Clear chat messages except the welcome message
     const welcomeMessage = chatMessages.querySelector('.message');
     chatMessages.innerHTML = '';
@@ -125,6 +155,97 @@ function showLoginScreen() {
 // Logout handler
 if (logoutBtn) {
     logoutBtn.addEventListener('click', showLoginScreen);
+}
+
+// Sidebar handlers
+if (menuBtn) {
+    menuBtn.addEventListener('click', openSidebar);
+}
+
+if (closeSidebarBtn) {
+    closeSidebarBtn.addEventListener('click', closeSidebar);
+}
+
+if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', closeSidebar);
+}
+
+function openSidebar() {
+    sidebar.classList.add('active');
+    sidebarOverlay.classList.add('active');
+}
+
+function closeSidebar() {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+}
+
+// Settings handlers
+if (settingsBtn) {
+    settingsBtn.addEventListener('click', () => {
+        closeSidebar();
+        openSettingsModal();
+    });
+}
+
+if (closeSettingsBtn) {
+    closeSettingsBtn.addEventListener('click', closeSettingsModal);
+}
+
+if (settingsModal) {
+    settingsModal.addEventListener('click', (e) => {
+        if (e.target === settingsModal) {
+            closeSettingsModal();
+        }
+    });
+}
+
+if (settingsForm) {
+    settingsForm.addEventListener('submit', handleSaveSettings);
+}
+
+function openSettingsModal() {
+    settingsModal.classList.add('active');
+    loadUserData();
+}
+
+function closeSettingsModal() {
+    settingsModal.classList.remove('active');
+}
+
+function handleSaveSettings(e) {
+    e.preventDefault();
+
+    const userData = {
+        name: userNameInput.value.trim(),
+        age: parseInt(userAgeInput.value),
+        gender: userGenderInput.value
+    };
+
+    // Save to localStorage
+    localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(userData));
+
+    // Show success message
+    alert('Settings saved successfully!');
+
+    // Close modal
+    closeSettingsModal();
+}
+
+function loadUserData() {
+    const savedData = localStorage.getItem(STORAGE_KEYS.USER_DATA);
+
+    if (savedData) {
+        try {
+            const userData = JSON.parse(savedData);
+
+            if (userNameInput) userNameInput.value = userData.name || '';
+            if (userAgeInput) userAgeInput.value = userData.age || '';
+            if (userGenderInput) userGenderInput.value = userData.gender || '';
+        } catch (error) {
+            console.error('Error loading user data:', error);
+        }
+    }
 }
 
 // Add input formatting for mobile number
