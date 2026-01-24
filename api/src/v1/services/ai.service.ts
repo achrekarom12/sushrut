@@ -18,22 +18,35 @@ const memory = new Memory({
     enabled: true,
     scope: "user",
   },
-  vector: new LibSQLVectorAdapter({
-    url: LIBSQL_URL,
-    authToken: LIBSQL_AUTH_TOKEN,
-  }),
+  // vector: new LibSQLVectorAdapter({
+  //   url: LIBSQL_URL,
+  //   authToken: LIBSQL_AUTH_TOKEN,
+  // }),
   enableCache: true,
   embedding: getEmbeddingModel(),
 });
 
-export async function initializeAgent() {
-    const model = await getModel();
 
-    const agent = new Agent({
-        name: "Chief Medical Officer",
-        model: model,
-        instructions: "You are a Chief Medical Officer. Help users with their medical questions. Be concise and short.",
-        memory: memory,
-    });
-    return agent;
+
+export async function initializeAgent(userName: string, age: number, gender: string, comorbidities: string[]) {
+  const model = await getModel();
+
+  const subagents = comorbidities.map(condition => new Agent({
+    name: `${condition} Specialist`,
+    purpose: `You are a specialist in ${condition}. Provide expert advice and information related to ${condition}.`,
+    model: model,
+    instructions: `Your task is to assist the main agent to gather specific information related to ${condition}.`
+  }));
+
+  const agent = new Agent({
+    name: "Chief Medical Officer",
+    model: model,
+    instructions: `You are a Chief Medical Officer dedicated to helping ${userName}. The user is ${age} years old and is ${gender}. Help users with their medical questions. Be concise and short. 
+        You have access to specialists for the following conditions: ${comorbidities.join(", ")}. 
+        Use them if the user's question relates to these conditions.
+        Keep your responses short, concise and personalised.`,
+    memory: memory,
+    subAgents: subagents,
+  });
+  return agent;
 }

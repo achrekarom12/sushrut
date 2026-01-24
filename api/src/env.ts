@@ -8,3 +8,6 @@ export const LIBSQL_URL = process.env.LIBSQL_URL!;
 export const LIBSQL_AUTH_TOKEN = process.env.LIBSQL_AUTH_TOKEN;
 export const GCP_PROJECT_ID = process.env.GCP_PROJECT_ID;
 export const GCS_BUCKET_NAME = process.env.GCS_BUCKET_NAME;
+export const PINECONE_API_KEY = process.env.PINECONE_API_KEY!;
+export const PINECONE_INDEX_NAME = process.env.PINECONE_INDEX_NAME!;
+export const PINECONE_INDEX_HOST = process.env.PINECONE_INDEX_HOST!;

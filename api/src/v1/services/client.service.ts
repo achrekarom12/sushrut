@@ -17,5 +17,8 @@ export function getEmbeddingModel(): EmbeddingAdapterInput {
     if (!GEMINI_API_KEY) {
         throw new Error("GEMINI_API_KEY is not set");
     }
-    return google.embedding('gemini-embedding-001');
+    const client = createGoogleGenerativeAI({
+        apiKey: GEMINI_API_KEY,
+    });
+    return client.embedding('gemini-embedding-001');
 }
