@@ -18,7 +18,8 @@ const messageInput = document.getElementById('message-input');
 const logoutBtn = document.getElementById('logout-btn');
 const reportUploadInput = document.getElementById('report-upload');
 const uploadBtn = document.getElementById('upload-btn');
-const reportsList = document.getElementById('reports-list');
+const pdfsList = document.getElementById('pdfs-list');
+const imagesList = document.getElementById('images-list');
 
 // Sidebar elements
 const sidebar = document.getElementById('sidebar');
@@ -527,30 +528,112 @@ async function handleFileUpload(e) {
 }
 
 function renderReports(userData) {
-    if (!reportsList) return;
+    if (!pdfsList || !imagesList) return;
 
-    let reports = [];
+    let files = [];
     if (userData.healthMetadata) {
         try {
             const metadata = typeof userData.healthMetadata === 'string'
                 ? JSON.parse(userData.healthMetadata)
                 : userData.healthMetadata;
-            reports = metadata.files || [];
+            files = metadata.files || [];
         } catch (e) {
             console.error('Error parsing reports:', e);
         }
     }
 
-    if (reports.length === 0) {
-        reportsList.innerHTML = '<p class="no-reports">No reports uploaded yet.</p>';
+    const pdfs = files.filter(f => f.name.toLowerCase().endsWith('.pdf'));
+    const images = files.filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f.name));
+
+    // Render PDFs
+    if (pdfs.length === 0) {
+        pdfsList.innerHTML = '<p class="no-reports">No PDFs uploaded yet.</p>';
+    } else {
+        pdfsList.innerHTML = pdfs.reverse().map((report, index) => `
+            <div class="report-item">
+                <a href="${report.url}" target="_blank" class="report-name" title="${report.name}">${report.name}</a>
+                <button class="delete-report-btn" data-type="pdf" data-url="${report.url}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                    </svg>
+                </button>
+            </div>
+        `).join('');
+    }
+
+    // Render Images
+    if (images.length === 0) {
+        imagesList.innerHTML = '<p class="no-reports">No images uploaded yet.</p>';
+    } else {
+        imagesList.innerHTML = images.reverse().map((report, index) => `
+            <div class="report-item">
+                <a href="${report.url}" target="_blank" class="report-name" title="${report.name}">${report.name}</a>
+                <button class="delete-report-btn" data-type="image" data-url="${report.url}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                    </svg>
+                </button>
+            </div>
+        `).join('');
+    }
+
+    // Add event listeners for delete buttons
+    document.querySelectorAll('.delete-report-btn').forEach(btn => {
+        btn.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const url = btn.getAttribute('data-url');
+            deleteFile(url);
+        };
+    });
+}
+
+async function deleteFile(fileUrl) {
+    if (!confirm('Are you sure you want to delete this file?')) return;
+
+    const savedData = localStorage.getItem(STORAGE_KEYS.USER_DATA);
+    if (!savedData) return;
+
+    const currentUser = JSON.parse(savedData);
+    let metadata = {};
+    try {
+        metadata = typeof currentUser.healthMetadata === 'string'
+            ? JSON.parse(currentUser.healthMetadata)
+            : currentUser.healthMetadata;
+    } catch (e) {
+        console.error('Error parsing metadata for delete:', e);
         return;
     }
 
-    reportsList.innerHTML = reports.reverse().map(report => `
-        <a href="${report.url}" target="_blank" class="report-item">
-            <span class="report-name" title="${report.name}">${report.name}</span>
-        </a>
-    `).join('');
+    if (!metadata.files) return;
+
+    // Filter out the file to be deleted
+    const updatedFiles = metadata.files.filter(f => f.url !== fileUrl);
+    metadata.files = updatedFiles;
+
+    const updatedHealthMetadata = JSON.stringify(metadata);
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/${currentUser.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ healthMetadata: updatedHealthMetadata })
+        });
+
+        if (response.ok) {
+            const updatedUser = await response.json();
+            localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(updatedUser));
+            renderReports(updatedUser);
+        } else {
+            const error = await response.json();
+            alert(error.message || 'Failed to delete file.');
+        }
+    } catch (error) {
+        console.error('Delete error:', error);
+        alert('Unable to connect to the server.');
+    }
 }
 
 // Add input formatting for mobile number

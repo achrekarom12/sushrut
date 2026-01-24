@@ -853,6 +853,19 @@ body {
     gap: 0.5rem;
 }
 
+.reports-sub-section {
+    margin-bottom: 1rem;
+}
+
+.sub-section-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    opacity: 0.8;
+}
+
 .report-item {
     display: flex;
     align-items: center;
@@ -865,6 +878,28 @@ body {
     color: var(--text-primary);
     font-size: 0.875rem;
     transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.delete-report-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--text-tertiary);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    flex-shrink: 0;
+}
+
+.delete-report-btn:hover {
+    color: #ef4444;
+    background: #fee2e2;
 }
 
 .report-item:hover {
@@ -882,6 +917,9 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 500;
 }
 
 .no-reports {
