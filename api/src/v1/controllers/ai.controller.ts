@@ -8,6 +8,7 @@ interface AIChatRequest {
 
 export async function chat(request: FastifyRequest<{ Body: AIChatRequest }>, reply: FastifyReply) {
     const { text, userId } = request.body;
+    const threadId = 'chat_' + Date.now();
 
     if (!text) {
         return reply.code(400).send({ message: "Text is required" });
@@ -19,7 +20,10 @@ export async function chat(request: FastifyRequest<{ Body: AIChatRequest }>, rep
 
     try {
         const agent = await initializeAgent();
-        const result = await agent.generateText(text);
+        const result = await agent.generateText(text, {
+                userId: userId,
+                conversationId: threadId,
+            });
 
         return reply.send({ text: result.text });
     } catch (error) {
