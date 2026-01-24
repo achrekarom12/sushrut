@@ -1,132 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sushrut - A modern Progressive Web App">
+    <meta name="description" content="Sushrut - Sign Up">
     <meta name="theme-color" content="#6366f1">
-    
+
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <title>Sushrut - Modern PWA</title>
+
+    <title>Sushrut - Sign Up</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <!-- Install Prompt Banner -->
-    <div id="install-banner" class="install-banner hidden">
-        <div class="install-content">
-            <div class="install-icon">📱</div>
-            <div class="install-text">
-                <h3>Install Sushrut</h3>
-                <p>Get quick access from your home screen</p>
-            </div>
-            <button id="install-button" class="install-btn">Install</button>
-            <button id="dismiss-button" class="dismiss-btn">✕</button>
-        </div>
-    </div>
-
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo-container">
+    <!-- Signup Container -->
+    <div class="signup-container">
+        <div class="signup-card">
+            <!-- Logo Section -->
+            <div class="signup-header">
                 <div class="logo-icon">🏥</div>
-                <h1 class="logo-text">Sushrut</h1>
+                <h1 class="app-title">Sushrut</h1>
+                <p class="signup-subtitle">Create your account</p>
             </div>
-            <div class="status-indicator">
-                <span id="online-status" class="status-dot online"></span>
-                <span id="status-text" class="status-text">Online</span>
-            </div>
-        </header>
 
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <h2 class="hero-title">Welcome to the Future</h2>
-                <p class="hero-subtitle">A modern Progressive Web App experience with offline capabilities</p>
-                <div class="hero-features">
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h3>Lightning Fast</h3>
-                        <p>Optimized performance for instant loading</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📴</div>
-                        <h3>Works Offline</h3>
-                        <p>Access content even without internet</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📱</div>
-                        <h3>Installable</h3>
-                        <p>Add to home screen for app-like experience</p>
-                    </div>
+            <!-- Signup Form -->
+            <form class="signup-form" id="signup-form">
+                <div class="form-group">
+                    <label for="mobile" class="form-label">Mobile Number</label>
+                    <input type="tel" id="mobile" class="form-input" placeholder="Enter your mobile number"
+                        pattern="[0-9]{10}" required>
+                    <span class="form-hint">10 digit mobile number</span>
                 </div>
-            </div>
-        </section>
 
-        <!-- Interactive Demo Section -->
-        <section class="demo-section">
-            <h2 class="section-title">Try It Out</h2>
-            <div class="demo-card">
-                <div class="input-group">
-                    <input 
-                        type="text" 
-                        id="demo-input" 
-                        class="demo-input" 
-                        placeholder="Enter your message..."
-                    >
-                    <button id="demo-button" class="demo-button">
-                        <span>Send</span>
-                        <span class="button-icon">→</span>
-                    </button>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="Create a password"
+                        minlength="6" required>
+                    <span class="form-hint">At least 6 characters</span>
                 </div>
-                <div id="demo-output" class="demo-output hidden">
-                    <div class="output-content"></div>
-                </div>
-            </div>
-        </section>
 
-        <!-- PWA Features Section -->
-        <section class="features-section">
-            <h2 class="section-title">PWA Features</h2>
-            <div class="features-grid">
-                <div class="info-card">
-                    <div class="info-icon">🔄</div>
-                    <h3>Service Worker</h3>
-                    <p id="sw-status" class="info-status">Checking...</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">💾</div>
-                    <h3>Cache Storage</h3>
-                    <p id="cache-status" class="info-status">Checking...</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">🌐</div>
-                    <h3>Network Status</h3>
-                    <p id="network-status" class="info-status">Online</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">📦</div>
-                    <h3>App Version</h3>
-                    <p class="info-status">v1.0.0</p>
-                </div>
-            </div>
-        </section>
+                <button type="submit" class="signup-button">
+                    Sign Up
+                </button>
+            </form>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>Built with ❤️ as a Progressive Web App</p>
-            <p class="footer-small">© 2026 Sushrut. All rights reserved.</p>
-        </footer>
+            <!-- Footer -->
+            <div class="signup-footer">
+                <p>Already have an account? <a href="#" class="link">Login</a></p>
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>
 </body>
+
 </html>
