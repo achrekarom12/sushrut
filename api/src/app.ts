@@ -13,7 +13,10 @@ export const buildApp = async (): Promise<FastifyInstance> => {
     await fastify.register(helmet, {
         contentSecurityPolicy: false,
     });
-    await fastify.register(cors);
+    await fastify.register(cors, {
+        origin: '*',
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    });
 
     // Register internal plugins
     await fastify.register(autoload, {
