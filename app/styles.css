@@ -367,6 +367,65 @@ body {
     word-wrap: break-word;
 }
 
+/* Markdown Styles */
+.message-text p {
+    margin-bottom: 0.75rem;
+}
+
+.message-text p:last-child {
+    margin-bottom: 0;
+}
+
+.message-text ul,
+.message-text ol {
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+}
+
+.message-text li {
+    margin-bottom: 0.25rem;
+}
+
+.message-text code {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.85rem;
+}
+
+.message-text pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 0.75rem;
+}
+
+.message-text pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+}
+
+.message-text h1,
+.message-text h2,
+.message-text h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.message-text blockquote {
+    border-left: 4px solid var(--primary-light);
+    padding-left: 1rem;
+    margin-left: 0;
+    margin-bottom: 0.75rem;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
 .message.sent .message-text {
     background: var(--primary);
     color: white;

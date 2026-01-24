@@ -1,12 +1,22 @@
 // API Configuration
-// const API_BASE_URL = 'https://sushrut-870116182456.europe-west1.run.app/v1';
-const API_BASE_URL = 'http://10.125.167.198:3000/v1';
+const API_BASE_URL = 'https://sushrut-870116182456.europe-west1.run.app/v1';
+// const API_BASE_URL = 'http://10.125.167.198:3000/v1';
 
 // LocalStorage Keys
 const STORAGE_KEYS = {
     USER_DATA: 'sushrut_user_data',
     IS_LOGGED_IN: 'sushrut_logged_in'
 };
+
+// Configure Marked.js
+if (typeof marked !== 'undefined') {
+    marked.setOptions({
+        breaks: true,
+        gfm: true,
+        headerIds: false,
+        mangle: false
+    });
+}
 
 // Get DOM elements
 const loginScreen = document.getElementById('login-screen');
@@ -199,18 +209,30 @@ function addMessage(text, type) {
         hour12: true
     });
 
+    let messageHtml = text;
+    if (type === 'received' && typeof marked !== 'undefined') {
+        // AI response - render as markdown
+        messageHtml = marked.parse(text);
+    } else {
+        // Sent message or fallback - treat as plain text but wrap in p
+        // Simple escape for text
+        const p = document.createElement('p');
+        p.textContent = text;
+        messageHtml = p.innerHTML;
+    }
+
     if (type === 'received') {
         messageDiv.innerHTML = `
             <div class="message-avatar">🏥</div>
             <div class="message-content">
-                <p class="message-text">${text}</p>
+                <div class="message-text">${messageHtml}</div>
                 <span class="message-time">${currentTime}</span>
             </div>
         `;
     } else {
         messageDiv.innerHTML = `
             <div class="message-content">
-                <p class="message-text">${text}</p>
+                <div class="message-text">${messageHtml}</div>
                 <span class="message-time">${currentTime}</span>
             </div>
         `;
