@@ -499,29 +499,39 @@ body {
     gap: var(--spacing-sm);
     max-width: 768px;
     margin: 0 auto;
+    align-items: flex-end;
 }
 
-.message-input {
+.input-wrapper {
     flex: 1;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    font-family: inherit;
-    color: var(--text-primary);
+    display: flex;
+    align-items: center;
     background: var(--bg-secondary);
     border: 1.5px solid var(--border-light);
     border-radius: var(--radius-md);
     transition: all var(--transition-base);
+    overflow: hidden;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--primary);
+    background: var(--bg-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.message-input {
+    flex: 1;
+    padding: 0.75rem 1rem 0.75rem 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: transparent;
+    border: none;
+    outline: none;
 }
 
 .message-input::placeholder {
     color: var(--text-tertiary);
-}
-
-.message-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: var(--bg-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 .send-button {
@@ -595,7 +605,26 @@ body {
     }
 
     .chat-input-container {
-        padding: var(--spacing-sm);
+        padding: 0.75rem;
+    }
+
+    .chat-input-form {
+        gap: 0.5rem;
+    }
+
+    .send-button {
+        width: 44px;
+        height: 44px;
+    }
+
+    .message-input {
+        padding: 0.625rem 0.75rem 0.625rem 0.25rem;
+        font-size: 0.9375rem;
+    }
+
+    .upload-btn {
+        width: 40px;
+        height: 40px;
     }
 }
 
@@ -874,29 +903,27 @@ body {
 }
 
 .upload-btn {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg-tertiary);
+    background: transparent;
     color: var(--text-secondary);
-    border: 1.5px solid var(--border-light);
-    border-radius: var(--radius-md);
+    border: none;
     cursor: pointer;
     transition: all var(--transition-base);
     flex-shrink: 0;
 }
 
 .upload-btn:hover {
-    background: var(--border-light);
     color: var(--primary);
-    border-color: var(--primary-light);
+    background: var(--bg-tertiary);
 }
 
 .upload-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
 }
 
 /* Typing Indicator (Moved/Shared) */

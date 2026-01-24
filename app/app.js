@@ -547,7 +547,6 @@ function renderReports(userData) {
 
     reportsList.innerHTML = reports.reverse().map(report => `
         <a href="${report.url}" target="_blank" class="report-item">
-            <span class="report-icon">${report.name.toLowerCase().endsWith('.pdf') ? '📄' : '🖼️'}</span>
             <span class="report-name" title="${report.name}">${report.name}</span>
         </a>
     `).join('');
