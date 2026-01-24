@@ -7,10 +7,7 @@ class GCSService {
     private bucketName: string;
 
     constructor() {
-        this.storage = new Storage({
-            projectId: GCP_PROJECT_ID,
-            keyFilename: '/secrets/keyfile.json'
-        });
+        this.storage = new Storage();
         this.bucketName = GCS_BUCKET_NAME!;
     }
 
