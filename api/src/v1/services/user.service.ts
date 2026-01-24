@@ -29,7 +29,7 @@ class UserService {
         const createdAt = new Date().toISOString();
 
         await db.execute({
-            sql: 'INSERT INTO users (id, name, age, phonenumber, gender, password, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            sql: 'INSERT INTO users (id, name, age, phonenumber, gender, password, healthMetadata, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             args: [
                 id,
                 userData.name,
@@ -37,6 +37,7 @@ class UserService {
                 userData.phonenumber,
                 userData.gender,
                 userData.password || null,
+                userData.healthMetadata || null,
                 createdAt
             ]
         });
@@ -58,16 +59,18 @@ class UserService {
             phonenumber: userData.phonenumber ?? currentUser.phonenumber,
             gender: userData.gender ?? currentUser.gender,
             password: userData.password ?? currentUser.password,
+            healthMetadata: userData.healthMetadata ?? currentUser.healthMetadata,
         };
 
         await db.execute({
-            sql: 'UPDATE users SET name = ?, age = ?, phonenumber = ?, gender = ?, password = ? WHERE id = ?',
+            sql: 'UPDATE users SET name = ?, age = ?, phonenumber = ?, gender = ?, password = ?, healthMetadata = ? WHERE id = ?',
             args: [
                 updatedUser.name,
                 updatedUser.age,
                 updatedUser.phonenumber,
                 updatedUser.gender,
                 updatedUser.password || null,
+                updatedUser.healthMetadata || null,
                 id
             ]
         });

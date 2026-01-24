@@ -31,6 +31,14 @@ const userNameInput = document.getElementById('user-name');
 const userAgeInput = document.getElementById('user-age');
 const userGenderInput = document.getElementById('user-gender');
 
+// Profile modal elements
+const profileModal = document.getElementById('profile-modal');
+const profileBtn = document.getElementById('profile-btn');
+const closeProfileBtn = document.getElementById('close-profile');
+const profileForm = document.getElementById('profile-form');
+const displayName = document.getElementById('display-name');
+const displayAgeGender = document.getElementById('display-age-gender');
+
 // Login Form Handler
 if (loginForm) {
     loginForm.addEventListener('submit', handleLogin);
@@ -264,6 +272,30 @@ if (settingsBtn) {
     });
 }
 
+// Profile handlers
+if (profileBtn) {
+    profileBtn.addEventListener('click', () => {
+        closeSidebar();
+        openProfileModal();
+    });
+}
+
+if (closeProfileBtn) {
+    closeProfileBtn.addEventListener('click', closeProfileModal);
+}
+
+if (profileModal) {
+    profileModal.addEventListener('click', (e) => {
+        if (e.target === profileModal) {
+            closeProfileModal();
+        }
+    });
+}
+
+if (profileForm) {
+    profileForm.addEventListener('submit', handleSaveProfile);
+}
+
 if (closeSettingsBtn) {
     closeSettingsBtn.addEventListener('click', closeSettingsModal);
 }
@@ -287,6 +319,93 @@ function openSettingsModal() {
 
 function closeSettingsModal() {
     settingsModal.classList.remove('active');
+}
+
+function openProfileModal() {
+    profileModal.classList.add('active');
+    loadProfileData();
+}
+
+function closeProfileModal() {
+    profileModal.classList.remove('active');
+}
+
+function loadProfileData() {
+    const savedData = localStorage.getItem(STORAGE_KEYS.USER_DATA);
+    if (!savedData) return;
+
+    try {
+        const userData = JSON.parse(savedData);
+        if (displayName) displayName.textContent = userData.name || 'User';
+
+        const age = userData.age || '--';
+        const genderShort = userData.gender ? userData.gender.charAt(0).toUpperCase() : '-';
+        if (displayAgeGender) displayAgeGender.textContent = `${age}, ${genderShort}`;
+
+        // Load comorbidities
+        if (userData.healthMetadata) {
+            try {
+                const metadata = JSON.parse(userData.healthMetadata);
+                const comorbidities = metadata.comorbidities || [];
+
+                const checkboxes = profileForm.querySelectorAll('input[name="comorbidity"]');
+                checkboxes.forEach(cb => {
+                    cb.checked = comorbidities.includes(cb.value);
+                });
+            } catch (e) {
+                console.error('Error parsing healthMetadata:', e);
+            }
+        }
+    } catch (error) {
+        console.error('Error loading profile data:', error);
+    }
+}
+
+async function handleSaveProfile(e) {
+    e.preventDefault();
+
+    const savedData = localStorage.getItem(STORAGE_KEYS.USER_DATA);
+    if (!savedData) return;
+
+    const currentUser = JSON.parse(savedData);
+
+    // Get selected comorbidities
+    const checkboxes = profileForm.querySelectorAll('input[name="comorbidity"]:checked');
+    const comorbidities = Array.from(checkboxes).map(cb => cb.value);
+
+    const healthMetadata = JSON.stringify({ comorbidities });
+
+    const saveBtn = profileForm.querySelector('button[type="submit"]');
+    const originalBtnText = saveBtn.textContent;
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/${currentUser.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ healthMetadata })
+        });
+
+        if (response.ok) {
+            const user = await response.json();
+            // Update localStorage
+            localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(user));
+            alert('Profile updated successfully!');
+            closeProfileModal();
+        } else {
+            const error = await response.json();
+            alert(error.message || 'Failed to update profile.');
+        }
+    } catch (error) {
+        console.error('Save error:', error);
+        alert('Unable to connect to the server.');
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = originalBtnText;
+    }
 }
 
 async function handleSaveSettings(e) {

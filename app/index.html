@@ -69,6 +69,14 @@
                 </button>
             </div>
             <nav class="sidebar-nav">
+                <button id="profile-btn" class="sidebar-nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20"
+                        height="20">
+                        <path
+                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                    </svg>
+                    <span>My Profile</span>
+                </button>
                 <button id="settings-btn" class="sidebar-nav-item">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20"
                         height="20">
@@ -166,6 +174,61 @@
 
                 <button type="submit" class="auth-button">Save Settings</button>
             </form>
+        </div>
+    </div>
+
+    <!-- My Profile Modal -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">My Profile</h2>
+                <button id="close-profile" class="close-modal-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24"
+                        height="24">
+                        <path
+                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                    </svg>
+                </button>
+            </div>
+            <div class="profile-info-section">
+                <div class="profile-main-info">
+                    <span id="display-name" class="profile-name">John Doe</span>
+                    <span id="display-age-gender" class="profile-details">23, M</span>
+                </div>
+
+                <div class="comorbidities-section">
+                    <h3 class="section-title">Major Comorbidities</h3>
+                    <form id="profile-form">
+                        <div class="checkbox-grid">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="comorbidity" value="diabetes">
+                                <span class="checkbox-label">Diabetes</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="comorbidity" value="hypertension">
+                                <span class="checkbox-label">Hypertension</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="comorbidity" value="heart_disease">
+                                <span class="checkbox-label">Heart Disease</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="comorbidity" value="asthma">
+                                <span class="checkbox-label">Asthma</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="comorbidity" value="thyroid">
+                                <span class="checkbox-label">Thyroid</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="comorbidity" value="kidney_disease">
+                                <span class="checkbox-label">Kidney Disease</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="auth-button mt-4">Update Profile</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 

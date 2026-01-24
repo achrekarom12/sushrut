@@ -5,6 +5,7 @@ export interface User {
   phonenumber: string;
   gender: string;
   password?: string;
+  healthMetadata?: string;
   createdAt: string;
 }
 
@@ -14,6 +15,7 @@ export interface CreateUserDTO {
   phonenumber: string;
   gender: string;
   password?: string;
+  healthMetadata?: string;
 }
 
 export interface UpdateUserDTO {
@@ -22,6 +24,7 @@ export interface UpdateUserDTO {
   phonenumber?: string;
   gender?: string;
   password?: string;
+  healthMetadata?: string;
 }
 
 export interface LoginDTO {

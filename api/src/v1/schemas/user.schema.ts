@@ -6,6 +6,7 @@ export const UserSchema = S.object()
     .prop('age', S.integer().minimum(0))
     .prop('phonenumber', S.string().pattern('^[0-9+]{10,15}$'))
     .prop('gender', S.string().enum(['male', 'female', 'other']))
+    .prop('healthMetadata', S.string())
     .prop('createdAt', S.string());
 
 export const CreateUserSchema = S.object()
@@ -13,6 +14,7 @@ export const CreateUserSchema = S.object()
     .prop('age', S.integer().minimum(0).required())
     .prop('phonenumber', S.string().pattern('^[0-9+]{10,15}$').required())
     .prop('gender', S.string().enum(['male', 'female', 'other']).required())
+    .prop('healthMetadata', S.string())
     .prop('password', S.string().minLength(6));
 
 export const UpdateUserSchema = S.object()
@@ -20,6 +22,7 @@ export const UpdateUserSchema = S.object()
     .prop('age', S.integer().minimum(0))
     .prop('phonenumber', S.string().pattern('^[0-9+]{10,15}$'))
     .prop('gender', S.string().enum(['male', 'female', 'other']))
+    .prop('healthMetadata', S.string())
     .prop('password', S.string().minLength(6));
 
 export const LoginSchema = S.object()
