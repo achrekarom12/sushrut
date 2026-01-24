@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sushrut - Sign Up">
+    <meta name="description" content="Sushrut - Healthcare Chat">
     <meta name="theme-color" content="#6366f1">
 
     <!-- PWA Meta Tags -->
@@ -13,7 +13,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <title>Sushrut - Sign Up</title>
+    <title>Sushrut - Healthcare Chat</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,41 +21,84 @@
 </head>
 
 <body>
-    <!-- Signup Container -->
-    <div class="signup-container">
-        <div class="signup-card">
-            <!-- Logo Section -->
-            <div class="signup-header">
-                <div class="logo-icon">🏥</div>
-                <h1 class="app-title">Sushrut</h1>
-                <p class="signup-subtitle">Create your account</p>
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen">
+        <div class="auth-container">
+            <div class="auth-card">
+                <!-- Logo Section -->
+                <div class="auth-header">
+                    <div class="logo-icon">🏥</div>
+                    <h1 class="app-title">Sushrut</h1>
+                    <p class="auth-subtitle">Login to your account</p>
+                </div>
+
+                <!-- Login Form -->
+                <form class="auth-form" id="login-form">
+                    <div class="form-group">
+                        <label for="mobile" class="form-label">Mobile Number</label>
+                        <input type="tel" id="mobile" class="form-input" placeholder="Enter your mobile number"
+                            pattern="[0-9]{10}" required>
+                        <span class="form-hint">Use: 9876543210</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password"
+                            minlength="6" required>
+                        <span class="form-hint">Use: password123</span>
+                    </div>
+
+                    <button type="submit" class="auth-button">
+                        Login
+                    </button>
+                </form>
+
+                <!-- Footer -->
+                <div class="auth-footer">
+                    <p class="demo-credentials">Demo Credentials: 9876543210 / password123</p>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <!-- Signup Form -->
-            <form class="signup-form" id="signup-form">
-                <div class="form-group">
-                    <label for="mobile" class="form-label">Mobile Number</label>
-                    <input type="tel" id="mobile" class="form-input" placeholder="Enter your mobile number"
-                        pattern="[0-9]{10}" required>
-                    <span class="form-hint">10 digit mobile number</span>
+    <!-- Chat Screen -->
+    <div id="chat-screen" class="screen hidden">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <div class="header-content">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-details">
+                        <h2 class="user-name">Healthcare Assistant</h2>
+                        <span class="user-status">Online</span>
+                    </div>
                 </div>
+                <button id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" class="form-input" placeholder="Create a password"
-                        minlength="6" required>
-                    <span class="form-hint">At least 6 characters</span>
+        <!-- Chat Messages Container -->
+        <div class="chat-messages" id="chat-messages">
+            <div class="message received">
+                <div class="message-avatar">🏥</div>
+                <div class="message-content">
+                    <p class="message-text">Welcome to Sushrut! How can I help you today?</p>
+                    <span class="message-time">Just now</span>
                 </div>
+            </div>
+        </div>
 
-                <button type="submit" class="signup-button">
-                    Sign Up
+        <!-- Chat Input -->
+        <div class="chat-input-container">
+            <form class="chat-input-form" id="chat-form">
+                <input type="text" id="message-input" class="message-input" placeholder="Type your message..." required>
+                <button type="submit" class="send-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24"
+                        height="24">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                    </svg>
                 </button>
             </form>
-
-            <!-- Footer -->
-            <div class="signup-footer">
-                <p>Already have an account? <a href="#" class="link">Login</a></p>
-            </div>
         </div>
     </div>
 
