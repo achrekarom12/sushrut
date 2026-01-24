@@ -1,7 +1,8 @@
 import { createClient } from '@libsql/client';
-
+import { LIBSQL_URL, LIBSQL_AUTH_TOKEN } from '../../env';
 const client = createClient({
-    url: 'file:local.db',
+    url: LIBSQL_URL,
+    authToken: LIBSQL_AUTH_TOKEN,
 });
 
 export const db = client;
