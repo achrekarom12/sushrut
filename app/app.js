@@ -15,6 +15,9 @@ const chatForm = document.getElementById('chat-form');
 const chatMessages = document.getElementById('chat-messages');
 const messageInput = document.getElementById('message-input');
 const logoutBtn = document.getElementById('logout-btn');
+const reportUploadInput = document.getElementById('report-upload');
+const uploadBtn = document.getElementById('upload-btn');
+const reportsList = document.getElementById('reports-list');
 
 // Sidebar elements
 const sidebar = document.getElementById('sidebar');
@@ -97,6 +100,14 @@ async function handleLogin(e) {
 // Chat Form Handler
 if (chatForm) {
     chatForm.addEventListener('submit', handleSendMessage);
+}
+
+if (uploadBtn) {
+    uploadBtn.addEventListener('click', () => reportUploadInput.click());
+}
+
+if (reportUploadInput) {
+    reportUploadInput.addEventListener('change', handleFileUpload);
 }
 
 async function handleSendMessage(e) {
@@ -464,10 +475,82 @@ function loadUserData() {
             if (userNameInput) userNameInput.value = userData.name || '';
             if (userAgeInput) userAgeInput.value = userData.age || '';
             if (userGenderInput) userGenderInput.value = userData.gender || '';
+
+            // Render reports
+            renderReports(userData);
         } catch (error) {
             console.error('Error loading user data:', error);
         }
     }
+}
+
+async function handleFileUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const savedData = localStorage.getItem(STORAGE_KEYS.USER_DATA);
+    if (!savedData) return;
+
+    const currentUser = JSON.parse(savedData);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const originalBtnContent = uploadBtn.innerHTML;
+    uploadBtn.disabled = true;
+    uploadBtn.innerHTML = '<span class="loading-spinner"></span>';
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/${currentUser.id}/reports`, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const updatedUser = await response.json();
+            localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(updatedUser));
+            renderReports(updatedUser);
+            addMessage(`Report uploaded: ${file.name}`, 'sent');
+            addMessage(`I've received your report "${file.name}". I've forwarded this to our EHR Admin.`, 'received');
+        } else {
+            const error = await response.json();
+            alert(error.message || 'Failed to upload report.');
+        }
+    } catch (error) {
+        console.error('Upload error:', error);
+        alert('Unable to connect to the server for upload.');
+    } finally {
+        uploadBtn.disabled = false;
+        uploadBtn.innerHTML = originalBtnContent;
+        reportUploadInput.value = ''; // Reset input
+    }
+}
+
+function renderReports(userData) {
+    if (!reportsList) return;
+
+    let reports = [];
+    if (userData.healthMetadata) {
+        try {
+            const metadata = typeof userData.healthMetadata === 'string'
+                ? JSON.parse(userData.healthMetadata)
+                : userData.healthMetadata;
+            reports = metadata.files || [];
+        } catch (e) {
+            console.error('Error parsing reports:', e);
+        }
+    }
+
+    if (reports.length === 0) {
+        reportsList.innerHTML = '<p class="no-reports">No reports uploaded yet.</p>';
+        return;
+    }
+
+    reportsList.innerHTML = reports.reverse().map(report => `
+        <a href="${report.url}" target="_blank" class="report-item">
+            <span class="report-icon">${report.name.toLowerCase().endsWith('.pdf') ? '📄' : '🖼️'}</span>
+            <span class="report-name" title="${report.name}">${report.name}</span>
+        </a>
+    `).join('');
 }
 
 // Add input formatting for mobile number

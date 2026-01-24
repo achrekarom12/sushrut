@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { userService } from '../services/user.service';
+import { gcsService } from '../services/gcs.service';
 import { CreateUserDTO, UpdateUserDTO, LoginDTO } from '../types/user';
 
 export const getUsers = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -48,4 +49,33 @@ export const deleteUser = async (request: FastifyRequest<{ Params: { id: string 
         return reply.status(404).send({ message: 'User not found' });
     }
     return reply.status(204).send();
+};
+
+export const uploadReport = async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
+    const { id } = request.params;
+    const user = await userService.getById(id);
+    if (!user) {
+        return reply.status(404).send({ message: 'User not found' });
+    }
+
+    const data = await request.file();
+    if (!data) {
+        return reply.status(400).send({ message: 'No file uploaded' });
+    }
+
+    try {
+        const buffer = await data.toBuffer();
+        const fileName = `${id}/${Date.now()}-${data.filename}`;
+        const url = await gcsService.uploadFile(buffer, fileName, data.mimetype);
+
+        const updatedUser = await userService.addReport(id, {
+            name: data.filename,
+            url: url
+        });
+
+        return updatedUser;
+    } catch (error) {
+        console.error('Upload error:', error);
+        return reply.status(500).send({ message: 'Error uploading file' });
+    }
 };

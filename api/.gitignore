@@ -110,3 +110,6 @@ temp/
 
 # Database
 local.db
+
+# Service Account key
+keyfile.json

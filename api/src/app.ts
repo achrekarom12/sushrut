@@ -3,6 +3,7 @@ import Fastify, { FastifyInstance } from 'fastify';
 import autoload from '@fastify/autoload';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
+import multipart from '@fastify/multipart';
 
 export const buildApp = async (): Promise<FastifyInstance> => {
     const fastify = Fastify({
@@ -14,9 +15,10 @@ export const buildApp = async (): Promise<FastifyInstance> => {
         contentSecurityPolicy: false,
     });
     await fastify.register(cors, {
-        origin: '*',
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     });
+
+    await fastify.register(multipart);
 
     // Register internal plugins
     await fastify.register(autoload, {

@@ -797,7 +797,144 @@ body {
     padding: var(--spacing-md);
 }
 
-/* ===== Form Select Styling ===== */
+/* ===== Reports & Upload ===== */
+.sidebar-divider {
+    height: 1px;
+    background: var(--border-light);
+    margin: var(--spacing-sm) 0;
+}
+
+.sidebar-section {
+    padding: 0 var(--spacing-sm);
+}
+
+.section-subtitle {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-sm);
+    padding-left: 0.5rem;
+}
+
+.reports-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.report-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.625rem 0.75rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    transition: all var(--transition-base);
+}
+
+.report-item:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--border-medium);
+    transform: translateX(4px);
+}
+
+.report-icon {
+    font-size: 1.125rem;
+}
+
+.report-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.no-reports {
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+    padding: 0.5rem;
+    font-style: italic;
+}
+
+/* File Upload */
+.file-upload-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hidden-input {
+    display: none;
+}
+
+.upload-btn {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1.5px solid var(--border-light);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    flex-shrink: 0;
+}
+
+.upload-btn:hover {
+    background: var(--border-light);
+    color: var(--primary);
+    border-color: var(--primary-light);
+}
+
+.upload-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Typing Indicator (Moved/Shared) */
+.typing-dots {
+    display: flex;
+    gap: 4px;
+    padding: 4px 0;
+}
+
+.typing-dots span {
+    width: 6px;
+    height: 6px;
+    background-color: var(--text-tertiary);
+    border-radius: 50%;
+    animation: typingBounce 1.4s infinite ease-in-out both;
+}
+
+.typing-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes typingBounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+}
+
 .form-input[type="number"],
 select.form-input {
     appearance: none;

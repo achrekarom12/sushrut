@@ -89,6 +89,33 @@ class UserService {
         });
         return result.rowsAffected > 0;
     }
+
+    async addReport(id: string, report: { name: string; url: string }): Promise<User | undefined> {
+        const currentUser = await this.getById(id);
+        if (!currentUser) return undefined;
+
+        let metadata: any = {};
+        if (currentUser.healthMetadata) {
+            try {
+                metadata = JSON.parse(currentUser.healthMetadata);
+            } catch (e) {
+                console.error('Error parsing healthMetadata:', e);
+            }
+        }
+
+        if (!metadata.files) {
+            metadata.files = [];
+        }
+
+        metadata.files.push({
+            ...report,
+            uploadedAt: new Date().toISOString()
+        });
+
+        return this.update(id, {
+            healthMetadata: JSON.stringify(metadata)
+        });
+    }
 }
 
 export const userService = new UserService();

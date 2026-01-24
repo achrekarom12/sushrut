@@ -95,4 +95,21 @@ export default async function (fastify: FastifyInstance) {
             },
         },
     }, userController.deleteUser);
+
+    fastify.post('/:id/reports', {
+        schema: {
+            description: 'Upload a report (PDF or image)',
+            tags: ['Users'],
+            params: UserIdParamSchema.valueOf(),
+            response: {
+                200: UserSchema.valueOf(),
+                404: {
+                    type: 'object',
+                    properties: {
+                        message: { type: 'string' },
+                    },
+                },
+            },
+        },
+    }, userController.uploadReport);
 }
