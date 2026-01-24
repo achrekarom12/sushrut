@@ -1,0 +1,22 @@
+{
+  "name": "sushrut-pwa",
+  "version": "1.0.0",
+  "description": "A modern Progressive Web App with offline capabilities",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server -p 8080 -c-1",
+    "start": "npx http-server -p 8080 -c-1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pwa",
+    "progressive-web-app",
+    "offline",
+    "service-worker"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
