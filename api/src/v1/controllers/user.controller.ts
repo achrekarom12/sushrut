@@ -1,10 +1,21 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { userService } from '../services/user.service';
-import { CreateUserDTO, UpdateUserDTO } from '../types/user';
+import { CreateUserDTO, UpdateUserDTO, LoginDTO } from '../types/user';
 
 export const getUsers = async (request: FastifyRequest, reply: FastifyReply) => {
     const users = await userService.getAll();
     return users;
+};
+
+export const login = async (request: FastifyRequest<{ Body: LoginDTO }>, reply: FastifyReply) => {
+    const { phonenumber, password } = request.body;
+    const user = await userService.getByPhonenumber(phonenumber);
+
+    if (!user || user.password !== password) {
+        return reply.status(401).send({ message: 'Invalid credentials' });
+    }
+
+    return user;
 };
 
 export const getUserById = async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {

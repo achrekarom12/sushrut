@@ -23,3 +23,8 @@ export interface UpdateUserDTO {
   gender?: string;
   password?: string;
 }
+
+export interface LoginDTO {
+  phonenumber: string;
+  password?: string;
+}

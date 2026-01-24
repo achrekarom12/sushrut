@@ -1,8 +1,5 @@
-// Hardcoded credentials
-const CREDENTIALS = {
-    mobile: '9876543210',
-    password: '123456'
-};
+// API Configuration
+const API_BASE_URL = 'https://sushrut-870116182456.europe-west1.run.app/v1';
 
 // LocalStorage Keys
 const STORAGE_KEYS = {
@@ -39,24 +36,53 @@ if (loginForm) {
     loginForm.addEventListener('submit', handleLogin);
 }
 
-function handleLogin(e) {
+async function handleLogin(e) {
     e.preventDefault();
 
     const mobile = document.getElementById('mobile').value.trim();
     const password = document.getElementById('password').value;
 
-    // Validate against hardcoded credentials
-    if (mobile === CREDENTIALS.mobile && password === CREDENTIALS.password) {
-        // Mark as logged in
-        localStorage.setItem(STORAGE_KEYS.IS_LOGGED_IN, 'true');
+    const loginBtn = loginForm.querySelector('button[type="submit"]');
+    const originalBtnText = loginBtn.textContent;
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Logging in...';
 
-        // Success - Show chat screen
-        showChatScreen();
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                phonenumber: mobile,
+                password: password
+            })
+        });
 
-        // Load user data if exists
-        loadUserData();
-    } else {
-        alert('Invalid credentials! Please use:\nMobile: 9876543210\nPassword: password123');
+        console.log(response);
+
+        if (response.ok) {
+            const userData = await response.json();
+
+            // Mark as logged in
+            localStorage.setItem(STORAGE_KEYS.IS_LOGGED_IN, 'true');
+            localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(userData));
+
+            // Success - Show chat screen
+            showChatScreen();
+
+            // Load user data into settings modal
+            loadUserData();
+        } else {
+            const error = await response.json();
+            alert(error.message || 'Login failed! Please check your credentials.');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        alert('Unable to connect to the server. Please make sure the backend is running.');
+    } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = originalBtnText;
     }
 }
 
@@ -213,23 +239,50 @@ function closeSettingsModal() {
     settingsModal.classList.remove('active');
 }
 
-function handleSaveSettings(e) {
+async function handleSaveSettings(e) {
     e.preventDefault();
 
-    const userData = {
+    const savedData = localStorage.getItem(STORAGE_KEYS.USER_DATA);
+    if (!savedData) return;
+
+    const currentUser = JSON.parse(savedData);
+    const updatedData = {
         name: userNameInput.value.trim(),
         age: parseInt(userAgeInput.value),
         gender: userGenderInput.value
     };
 
-    // Save to localStorage
-    localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(userData));
+    const saveBtn = settingsForm.querySelector('button[type="submit"]');
+    const originalBtnText = saveBtn.textContent;
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
 
-    // Show success message
-    alert('Settings saved successfully!');
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/${currentUser.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData)
+        });
 
-    // Close modal
-    closeSettingsModal();
+        if (response.ok) {
+            const user = await response.json();
+            // Update localStorage
+            localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(user));
+            alert('Settings saved successfully!');
+            closeSettingsModal();
+        } else {
+            const error = await response.json();
+            alert(error.message || 'Failed to save settings.');
+        }
+    } catch (error) {
+        console.error('Save error:', error);
+        alert('Unable to connect to the server.');
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = originalBtnText;
+    }
 }
 
 function loadUserData() {

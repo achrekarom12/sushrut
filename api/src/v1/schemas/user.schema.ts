@@ -22,5 +22,9 @@ export const UpdateUserSchema = S.object()
     .prop('gender', S.string().enum(['male', 'female', 'other']))
     .prop('password', S.string().minLength(6));
 
+export const LoginSchema = S.object()
+    .prop('phonenumber', S.string().pattern('^[0-9+]{10,15}$').required())
+    .prop('password', S.string().minLength(6).required());
+
 export const UserIdParamSchema = S.object()
     .prop('id', S.string().format('uuid').required());

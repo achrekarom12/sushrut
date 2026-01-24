@@ -16,6 +16,14 @@ class UserService {
         return result.rows[0] as unknown as User | undefined;
     }
 
+    async getByPhonenumber(phonenumber: string): Promise<User | undefined> {
+        const result = await db.execute({
+            sql: 'SELECT * FROM users WHERE phonenumber = ?',
+            args: [phonenumber]
+        });
+        return result.rows[0] as unknown as User | undefined;
+    }
+
     async create(userData: CreateUserDTO): Promise<User> {
         const id = uuidv4();
         const createdAt = new Date().toISOString();

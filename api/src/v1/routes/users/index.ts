@@ -1,8 +1,25 @@
 import { FastifyInstance } from 'fastify';
 import * as userController from '../../controllers/user.controller';
-import { CreateUserSchema, UpdateUserSchema, UserIdParamSchema, UserSchema } from '../../schemas/user.schema';
+import { CreateUserSchema, UpdateUserSchema, UserIdParamSchema, UserSchema, LoginSchema } from '../../schemas/user.schema';
 
 export default async function (fastify: FastifyInstance) {
+    fastify.post('/login', {
+        schema: {
+            description: 'Login user',
+            tags: ['Users'],
+            body: LoginSchema.valueOf(),
+            response: {
+                200: UserSchema.valueOf(),
+                401: {
+                    type: 'object',
+                    properties: {
+                        message: { type: 'string' },
+                    },
+                },
+            },
+        },
+    }, userController.login);
+
     fastify.get('/', {
         schema: {
             description: 'Get all users',
