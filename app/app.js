@@ -1,7 +1,7 @@
 // Hardcoded credentials
 const CREDENTIALS = {
     mobile: '9876543210',
-    password: 'password123'
+    password: '123456'
 };
 
 // LocalStorage Keys
