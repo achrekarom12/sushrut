@@ -1,22 +1,32 @@
 {
-  "name": "sushrut-pwa",
-  "version": "1.0.0",
-  "description": "A modern Progressive Web App with offline capabilities",
-  "main": "index.html",
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "npx http-server -p 8080 -c-1",
-    "start": "npx http-server -p 8080 -c-1",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
   },
-  "keywords": [
-    "pwa",
-    "progressive-web-app",
-    "offline",
-    "service-worker"
-  ],
-  "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.29.0",
+    "lucide-react": "^0.563.0",
+    "marked": "^17.0.1",
+    "next": "16.1.4",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-markdown": "^10.1.0",
+    "tailwind-merge": "^3.4.0"
+  },
   "devDependencies": {
-    "http-server": "^14.1.1"
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.4",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }

@@ -1,0 +1,184 @@
+'use client';
+
+import React, { useState, useEffect, useRef } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { Sidebar } from '@/components/Sidebar';
+import { Message } from '@/components/Message';
+import { ChatInput } from '@/components/ChatInput';
+import { Menu, User, Loader2, Hospital } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
+export default function ChatPage() {
+  const { user, isLoggedIn, isLoading: authLoading, updateUser } = useAuth();
+  const [messages, setMessages] = useState<Array<{ text: string, type: 'sent' | 'received', timestamp: string }>>([
+    {
+      text: "Hi I am Sushrut, your Chief Medical Officer! How can I help you today?",
+      type: 'received',
+      timestamp: 'Just now'
+    }
+  ]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isResponding, setIsResponding] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!authLoading && !isLoggedIn) {
+      router.push('/login');
+    }
+  }, [isLoggedIn, authLoading, router]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const handleSendMessage = async (text: string) => {
+    const timestamp = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+    setMessages(prev => [...prev, { text, type: 'sent', timestamp }]);
+    setIsResponding(true);
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ai/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text,
+          userId: (user?.id || user?.user_id || 'anonymous').toString()
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMessages(prev => [...prev, {
+          text: data.text,
+          type: 'received',
+          timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+        }]);
+      } else {
+        setMessages(prev => [...prev, {
+          text: "I'm sorry, I'm having trouble responding right now. Please try again later.",
+          type: 'received',
+          timestamp: 'Just now'
+        }]);
+      }
+    } catch (err) {
+      console.error('Chat error:', err);
+      setMessages(prev => [...prev, {
+        text: "Unable to connect to the medical assistant. Please check your internet connection.",
+        type: 'received',
+        timestamp: 'Just now'
+      }]);
+    } finally {
+      setIsResponding(false);
+    }
+  };
+
+  const handleFileUpload = async (file: File) => {
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${user?.id}/reports`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const updatedUser = await response.json();
+        updateUser(updatedUser);
+
+        handleSendMessage(`Report uploaded: ${file.name}`);
+        setTimeout(() => {
+          setMessages(prev => [...prev, {
+            text: `I've received your report "${file.name}". I've forwarded this to our EHR Admin.`,
+            type: 'received',
+            timestamp: 'Just now'
+          }]);
+        }, 1000);
+      } else {
+        alert('Failed to upload report.');
+      }
+    } catch (err) {
+      console.error('Upload error:', err);
+      alert('Unable to connect to the server for upload.');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  if (authLoading || !isLoggedIn) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white">
+        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-screen bg-[#fcfcfc] overflow-hidden text-slate-900">
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
+      <main className="flex-1 flex flex-col min-w-0 bg-white relative">
+        {/* Header */}
+        <header className="flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-slate-100 z-30 sticky top-0">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors"
+            >
+              <Menu size={20} />
+            </button>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-100">
+                <Hospital size={20} />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-slate-900 leading-tight">Sushrut AI</h2>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Medical Assistant</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-[#f8fafc]/30">
+          <div className="max-w-3xl mx-auto py-4">
+            {messages.map((msg, i) => (
+              <Message key={i} {...msg} />
+            ))}
+            {isResponding && (
+              <div className="flex justify-start mb-6">
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-sm">🏥</div>
+                  <div className="bg-white px-4 py-3 rounded-2xl rounded-tl-none border border-slate-200 shadow-sm">
+                    <div className="flex gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-300 animate-bounce"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-300 animate-bounce delay-150"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-300 animate-bounce delay-300"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+        </div>
+
+        {/* Input */}
+        <div className="max-w-3xl mx-auto w-full">
+          <ChatInput
+            onSendMessage={handleSendMessage}
+            onFileUpload={handleFileUpload}
+            isUploading={isUploading}
+            isResponding={isResponding}
+          />
+        </div>
+      </main>
+    </div>
+  );
+}
