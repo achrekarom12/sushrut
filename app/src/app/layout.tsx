@@ -9,6 +9,22 @@ export const metadata: Metadata = {
   title: "Sushrut - Your AI CMO",
   description: "Advanced healthcare assistant for medical reports and advice",
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Sushrut",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+};
+
+export const viewport = {
+  themeColor: "#4f46e5",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
