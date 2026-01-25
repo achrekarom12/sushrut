@@ -58,7 +58,7 @@ export function ChatInput({ onSendMessage, onFileUpload, isUploading, isRespondi
                             handleSubmit(e);
                         }
                     }}
-                    placeholder="Ask anything about your health..."
+                    placeholder="Ask Sushrut..."
                     className="flex-1 py-3 text-slate-800 placeholder:text-slate-400 text-[15px] leading-relaxed bg-transparent border-none focus:ring-0 resize-none min-h-[44px] max-h-32 transition-all"
                     rows={1}
                     style={{ height: 'auto' }}

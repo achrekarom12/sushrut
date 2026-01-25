@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { cn, generateChatId } from '@/lib/utils';
 import {
@@ -25,7 +25,7 @@ interface SidebarProps {
     onClose: () => void;
 }
 
-export function Sidebar({ isOpen, onClose }: SidebarProps) {
+function SidebarContent({ isOpen, onClose }: SidebarProps) {
     const { user, logout, updateUser } = useAuth();
     const pathname = usePathname();
     const router = useRouter();
@@ -64,21 +64,6 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     const files = metadata.files || [];
     const pdfs = files.filter((f: any) => f.name.toLowerCase().endsWith('.pdf'));
     const images = files.filter((f: any) => /\.(jpg|jpeg|png|gif|webp)$/i.test(f.name));
-
-    const handleLanguageChange = async (lang: string) => {
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${user?.id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ languagePreference: lang }),
-            });
-            if (response.ok) {
-                updateUser({ languagePreference: lang });
-            }
-        } catch (err) {
-            console.error('Language update error:', err);
-        }
-    };
 
     return (
         <>
@@ -206,3 +191,14 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         </>
     );
 }
+
+export function Sidebar(props: SidebarProps) {
+    return (
+        <Suspense fallback={
+            <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-slate-100 lg:relative shadow-2xl lg:shadow-none animate-pulse" />
+        }>
+            <SidebarContent {...props} />
+        </Suspense>
+    );
+}
+

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Sidebar } from '@/components/Sidebar';
 import { Message } from '@/components/Message';
@@ -10,7 +10,7 @@ import { Menu, User, Loader2, Hospital, AlertCircle } from 'lucide-react';
 import { Modal } from '@/components/Modal';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function ChatPage() {
+function ChatContent() {
   const { user, isLoggedIn, isLoading: authLoading, updateUser } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -254,3 +254,16 @@ export default function ChatPage() {
     </div>
   );
 }
+
+export default function ChatPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center bg-white">
+        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+      </div>
+    }>
+      <ChatContent />
+    </Suspense>
+  );
+}
+
