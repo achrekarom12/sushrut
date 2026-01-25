@@ -223,7 +223,7 @@ function ChatContent() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-[#f8fafc]/10 relative z-10">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-[#f8fafc]/30">
           <div className="max-w-3xl mx-auto py-4">
             {messages.map((msg, i) => (
               <Message key={i} {...msg} />
