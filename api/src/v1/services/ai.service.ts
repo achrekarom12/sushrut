@@ -1,10 +1,36 @@
-import { Agent, Memory } from "@voltagent/core";
+import { Agent, createTool, Memory } from "@voltagent/core";
 import { getProvider, getEmbeddingModel } from "./client.service";
 import { LibSQLMemoryAdapter, LibSQLVectorAdapter } from "@voltagent/libsql";
 import { LIBSQL_URL, LIBSQL_AUTH_TOKEN } from "../../env";
 import { BaseRetriever } from "@voltagent/core";
 import fs from "fs/promises";
 import path from "path";
+import { z } from "zod";
+
+const findLabTool = createTool({
+  name: "find-lab",
+  description: "Finds the nearest lab for a given location.",
+  parameters: z.object({
+    location: z.string().describe("The city and state, e.g., San Francisco, CA"),
+  }),
+  execute: async ({ }) => {
+    return [{
+      name: "Metropolis Labs | Blood Test & Diagnostic Centre",
+      address: "Platinum Building, CD Barfiwala Road, Juhu Lane, Andheri West, Mumbai, Maharashtra 400058",
+    },
+    {
+      name: "NURA - Ai Health Screening Center Mumbai",
+      address: "254D, Band Box House, Opp Sasmira Institute, Dr Annie Besant Road, Sudam Kalu Ahire Marg, Worli, Mumbai, Maharashtra 400030",
+    },
+    {
+      name: "Clinical health care laboratory",
+      address: "Shop no, 11, Road, near Dimond medical, Shastri Nagar, Irla, Vile Parle, Mumbai, Maharashtra 400056",
+    },
+    ]
+  },
+});
+
+
 
 class FileRetriever extends BaseRetriever {
   constructor(private directoryPath: string) {
@@ -13,11 +39,11 @@ class FileRetriever extends BaseRetriever {
 
   async retrieve(input: any, options: any) {
     const query = typeof input === "string" ? input : input[input.length - 1].content;
-    
+
     const results = await this.searchFiles(query);
-    
-    return results.length > 0 
-      ? results.join("\n\n---\n\n") 
+
+    return results.length > 0
+      ? results.join("\n\n---\n\n")
       : "No relevant documents found.";
   }
 
@@ -84,16 +110,20 @@ async function getDefaultAgents() {
   return [
     new Agent({
       name: `General Physician`,
-      purpose: `You are a generalist in general health. Provide expert advice and information related to general health.`,
+      purpose: `You are a expert and seasoned general physician. 
+      Your task is to provide expert advice and information related to general health.
+      General health includes normal flu, cold, cough, fever, etc.`,
       model: model,
       instructions: `Your role is to act as a generalist and provide information related to normal flu, cold, cough, fever, etc.`,
     }),
     new Agent({
       name: `Lab Finder`,
-      purpose: `You are a lab finder in general health. Provide expert advice and information related to labs in the area.`,
+      purpose: `You are a lab finder in general health. Your task is to provide expert advice and information related to labs in the area.
+      You have a tool that can find the nearest lab for the user.
+      Use this tool whenever the user asks for a lab.`,
       model: model,
       instructions: `Your role is to act as a lab finder and provide information related to labs in the area.`,
-      tools: []
+      tools: [findLabTool]
     })
   ]
 }
@@ -106,7 +136,8 @@ export async function initializeAgent(userName: string, age: number, gender: str
 
   const subagents = comorbidities.map(condition => new Agent({
     name: `${condition} Specialist`,
-    purpose: `You are a specialist in ${condition}. Provide expert advice and information related to ${condition}.`,
+    purpose: `You are a specialist in ${condition}. You have been asked to provide your expert optionon on ${condition} by the CMO. 
+    You have access to Standard treatment guides and you have to always site your references from it. Be thorough and provide all the information related to ${condition}.`,
     model: model,
     instructions: `Your task is to assist the main agent to gather specific information related to ${condition}.`,
     retriever: new FileRetriever(`../../data/${condition}-stg.txt`),
@@ -115,7 +146,8 @@ export async function initializeAgent(userName: string, age: number, gender: str
   if (gender == 'female') {
     subagents.push(new Agent({
       name: `Gynecologist`,
-      purpose: `You are a gynecologist in general health. Provide expert advice and information related to gynecology.`,
+      purpose: `You are a gynecologist in womens health. You have been asked to provide your expert optionon on gynecology by the CMO. 
+      You have access to Standard treatment guides and you have to always site your references from it. Be thorough and provide all the information related to women health.`,
       model: model,
       instructions: `Your role is to act as a gynecologist and provide information related to gynecology.`,
       retriever: new FileRetriever(`../../data/gynac-stg.txt`),
@@ -127,12 +159,12 @@ export async function initializeAgent(userName: string, age: number, gender: str
   const agent = new Agent({
     name: "Chief Medical Officer",
     model: model,
-    instructions: `You are a Chief Medical Officer dedicated to helping ${userName}. The user is ${age} years old and is ${gender}. 
-        Help users with their medical questions. Be concise and short. 
+    instructions: `You are a Chief Medical Officer dedicatedly deployed to help ${userName}. The user is ${age} years old and is ${gender}. 
+        Help users with their medical questions.
         You have access to specialists for the following conditions: ${comorbidities.join(", ")}. 
-        Use them if the user's question relates to these conditions.
+        Use the subagents you have if the user's question relates to these conditions.
         Keep your responses short, concise and personalised.
-        ALWAYS respond in transliterated ${languagePreference} as user is most familiar with it.`,
+        ALWAYS respond in ${languagePreference} as the user is most familiar with it.`,
     memory: memory,
     subAgents: subagents
   });
