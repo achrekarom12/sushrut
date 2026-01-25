@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Sidebar } from '@/components/Sidebar';
-import { Menu, Loader2, ArrowLeft, FileText, Image as ImageIcon, Trash2, ExternalLink } from 'lucide-react';
+import { Menu, Loader2, ArrowLeft, FileText, Image as ImageIcon, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -132,15 +132,7 @@ export default function ReportsPage() {
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <a
-                                            href={file.url}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
-                                            title="View Document"
-                                        >
-                                            <ExternalLink size={18} />
-                                        </a>
+
                                         <button
                                             onClick={() => handleDeleteFile(file.url)}
                                             disabled={isDeleting === file.url}
@@ -171,43 +163,32 @@ export default function ReportsPage() {
                             </span>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-3">
                             {images.length > 0 ? images.map((file: any, i: number) => (
                                 <div
                                     key={i}
-                                    className="group relative rounded-3xl overflow-hidden border border-slate-100 bg-white hover:border-indigo-200 hover:shadow-xl transition-all duration-300"
+                                    className="group flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-white hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-50/50 transition-all duration-300"
                                 >
-                                    <div className="aspect-video bg-slate-50 relative overflow-hidden">
-                                        <img
-                                            src={file.url}
-                                            alt={file.name}
-                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                                            <div className="flex items-center justify-between w-full">
-                                                <a
-                                                    href={file.url}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className="p-2 bg-white/20 backdrop-blur-md rounded-xl text-white hover:bg-white/30 transition-all"
-                                                >
-                                                    <ExternalLink size={18} />
-                                                </a>
-                                                <button
-                                                    onClick={() => handleDeleteFile(file.url)}
-                                                    disabled={isDeleting === file.url}
-                                                    className="p-2 bg-white/20 backdrop-blur-md rounded-xl text-white hover:bg-red-500 transition-all"
-                                                >
-                                                    {isDeleting === file.url ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
-                                                </button>
-                                            </div>
+                                    <div className="flex items-center gap-4 min-w-0">
+                                        <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600">
+                                            <ImageIcon size={20} />
+                                        </div>
+                                        <div className="min-w-0">
+                                            <h5 className="font-bold text-sm text-slate-900 truncate pr-4">{file.name}</h5>
+                                            <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">
+                                                {file.uploadedAt ? new Date(file.uploadedAt).toLocaleDateString() : 'Image'}
+                                            </p>
                                         </div>
                                     </div>
-                                    <div className="p-4">
-                                        <h5 className="font-bold text-sm text-slate-900 truncate">{file.name}</h5>
-                                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">
-                                            {file.uploadedAt ? new Date(file.uploadedAt).toLocaleDateString() : 'Image'}
-                                        </p>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={() => handleDeleteFile(file.url)}
+                                            disabled={isDeleting === file.url}
+                                            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                                            title="Delete image"
+                                        >
+                                            {isDeleting === file.url ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
+                                        </button>
                                     </div>
                                 </div>
                             )) : (

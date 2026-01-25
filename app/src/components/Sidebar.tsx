@@ -12,7 +12,8 @@ import {
     ChevronRight,
     Languages,
     Activity,
-    Trash2
+    Trash2,
+    Settings
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -108,30 +109,22 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                                 <ChevronRight size={14} className="opacity-40" />
                             </div>
                         </Link>
+
+                        <Link
+                            href="/settings"
+                            className={cn(
+                                "flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-semibold text-sm",
+                                pathname === '/settings' ? "bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                            )}
+                            onClick={onClose}
+                        >
+                            <Settings size={18} />
+                            <span className="flex-1">Settings</span>
+                            <ChevronRight size={14} className="opacity-40" />
+                        </Link>
                     </nav>
 
-                    <div className="p-4 bg-slate-50 border-t border-slate-100 space-y-4">
-                        <div>
-                            <div className="flex items-center gap-2 mb-3 px-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                <Languages size={12} />
-                                Language
-                            </div>
-                            <div className="flex gap-1 bg-white p-1 rounded-xl border border-slate-200">
-                                {['english', 'hindi', 'marathi'].map((lang) => (
-                                    <button
-                                        key={lang}
-                                        onClick={() => handleLanguageChange(lang)}
-                                        className={cn(
-                                            "flex-1 px-1 py-2 text-[11px] font-bold rounded-lg transition-all capitalize",
-                                            user?.languagePreference === lang ? "bg-indigo-600 text-white shadow-sm" : "text-slate-500 hover:text-slate-900"
-                                        )}
-                                    >
-                                        {lang.slice(0, 3)}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
+                    <div className="p-4 bg-white border-t border-slate-100">
                         <button
                             onClick={logout}
                             className="flex w-full items-center gap-3 px-4 py-3 rounded-2xl text-red-600 hover:bg-red-50 transition-all font-bold text-sm"
