@@ -30,29 +30,6 @@ function SidebarContent({ isOpen, onClose }: SidebarProps) {
     const pathname = usePathname();
     const router = useRouter();
     const searchParams = useSearchParams();
-    const currentChatId = searchParams.get('chatId');
-
-    const [conversations, setConversations] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        if (user?.id || user?.user_id) {
-            fetchConversations();
-        }
-    }, [user, currentChatId]);
-
-    const fetchConversations = async () => {
-        try {
-            const userId = user?.id || user?.user_id;
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ai/conversations/${userId}`);
-            if (response.ok) {
-                const data = await response.json();
-                setConversations(data);
-            }
-        } catch (err) {
-            console.error('Error fetching conversations:', err);
-        }
-    };
 
     const handleNewChat = () => {
         const newChatId = generateChatId();
@@ -62,8 +39,6 @@ function SidebarContent({ isOpen, onClose }: SidebarProps) {
 
     const metadata = user?.healthMetadata ? JSON.parse(user.healthMetadata) : {};
     const files = metadata.files || [];
-    const pdfs = files.filter((f: any) => f.name.toLowerCase().endsWith('.pdf'));
-    const images = files.filter((f: any) => /\.(jpg|jpeg|png|gif|webp)$/i.test(f.name));
 
     return (
         <>
@@ -95,85 +70,75 @@ function SidebarContent({ isOpen, onClose }: SidebarProps) {
                     </div>
 
                     <nav className="flex-1 overflow-y-auto px-4 space-y-1.5 mt-2">
-                        <Link
-                            href="/profile"
-                            className={cn(
-                                "flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-semibold text-sm",
-                                pathname === '/profile' ? "bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-                            )}
-                            onClick={onClose}
+                        <button
+                            onClick={handleNewChat}
+                            className="flex w-full items-center gap-3 px-4 py-3.5 rounded-2xl bg-indigo-600 text-white hover:bg-indigo-700 transition-all font-bold text-sm shadow-lg shadow-indigo-100 mb-6 group active:scale-[0.98]"
                         >
-                            <UserIcon size={18} />
-                            <span className="flex-1">My Profile</span>
-                            <ChevronRight size={14} className="opacity-40" />
-                        </Link>
-
-                        <Link
-                            href="/reports"
-                            className={cn(
-                                "flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-semibold text-sm",
-                                pathname === '/reports' ? "bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-                            )}
-                            onClick={onClose}
-                        >
-                            <FileText size={18} />
-                            <span className="flex-1">My Reports</span>
-                            <div className="flex items-center gap-1.5">
-                                {files.length > 0 && (
-                                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-indigo-600 text-[10px] text-white font-bold">
-                                        {files.length}
-                                    </span>
-                                )}
-                                <ChevronRight size={14} className="opacity-40" />
+                            <div className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                                <Plus size={16} />
                             </div>
-                        </Link>
+                            <span>Start New Chat</span>
+                        </button>
 
-                        <Link
-                            href="/settings"
-                            className={cn(
-                                "flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-semibold text-sm",
-                                pathname === '/settings' ? "bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-                            )}
-                            onClick={onClose}
-                        >
-                            <Settings size={18} />
-                            <span className="flex-1">Settings</span>
-                            <ChevronRight size={14} className="opacity-40" />
-                        </Link>
-
-                        <div className="pt-4 pb-2 px-4">
-                            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Recent Chats</h3>
-                            <button
-                                onClick={handleNewChat}
-                                className="flex w-full items-center gap-3 px-4 py-2.5 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-all font-bold text-xs shadow-md shadow-indigo-100 mb-3"
+                        <div className="space-y-1.5">
+                            <Link
+                                href="/profile"
+                                className={cn(
+                                    "flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-semibold text-sm",
+                                    pathname === '/profile' ? "bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                                )}
+                                onClick={onClose}
                             >
-                                <Plus size={14} />
-                                <span>New Chat</span>
-                            </button>
+                                <UserIcon size={18} />
+                                <span className="flex-1">My Profile</span>
+                                <ChevronRight size={14} className="opacity-40" />
+                            </Link>
 
-                            <div className="space-y-1 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
-                                {conversations.map((chat) => (
-                                    <Link
-                                        key={chat.id}
-                                        href={`/?chatId=${chat.id}`}
-                                        className={cn(
-                                            "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-xs font-semibold group",
-                                            currentChatId === chat.id ? "bg-indigo-50 text-indigo-600" : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
-                                        )}
-                                        onClick={onClose}
-                                    >
-                                        <MessageSquare size={14} className={cn(currentChatId === chat.id ? "text-indigo-600" : "text-slate-400 group-hover:text-slate-600")} />
-                                        <span className="flex-1 truncate">
-                                            {chat.title || 'New Conversation'}
-                                        </span>
-                                    </Link>
-                                ))}
-                                {conversations.length === 0 && (
-                                    <div className="text-center py-6 px-4 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
-                                        <p className="text-[10px] text-slate-400 font-medium">No previous chats found</p>
-                                    </div>
+                            <Link
+                                href="/reports"
+                                className={cn(
+                                    "flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-semibold text-sm",
+                                    pathname === '/reports' ? "bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
                                 )}
-                            </div>
+                                onClick={onClose}
+                            >
+                                <FileText size={18} />
+                                <span className="flex-1">My Reports</span>
+                                <div className="flex items-center gap-1.5">
+                                    {files.length > 0 && (
+                                        <span className="flex items-center justify-center w-5 h-5 rounded-full bg-indigo-600 text-[10px] text-white font-bold">
+                                            {files.length}
+                                        </span>
+                                    )}
+                                    <ChevronRight size={14} className="opacity-40" />
+                                </div>
+                            </Link>
+
+                            <Link
+                                href="/history"
+                                className={cn(
+                                    "flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-semibold text-sm",
+                                    pathname === '/history' ? "bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                                )}
+                                onClick={onClose}
+                            >
+                                <MessageSquare size={18} />
+                                <span className="flex-1">Chat History</span>
+                                <ChevronRight size={14} className="opacity-40" />
+                            </Link>
+
+                            <Link
+                                href="/settings"
+                                className={cn(
+                                    "flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-semibold text-sm",
+                                    pathname === '/settings' ? "bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                                )}
+                                onClick={onClose}
+                            >
+                                <Settings size={18} />
+                                <span className="flex-1">Settings</span>
+                                <ChevronRight size={14} className="opacity-40" />
+                            </Link>
                         </div>
                     </nav>
 

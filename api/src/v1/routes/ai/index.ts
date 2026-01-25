@@ -30,4 +30,12 @@ export default async function (fastify: FastifyInstance) {
             params: S.object().prop('chatId', S.string().required()).valueOf(),
         },
     }, aiController.getMessages);
+
+    fastify.delete('/conversations/:chatId', {
+        schema: {
+            description: 'Delete conversation',
+            tags: ['AI'],
+            params: S.object().prop('chatId', S.string().required()).valueOf(),
+        },
+    }, aiController.deleteConversation);
 }

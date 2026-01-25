@@ -129,3 +129,24 @@ export async function getMessages(request: FastifyRequest<{ Params: { chatId: st
         return reply.code(500).send({ message: "Internal Server Error" });
     }
 }
+
+export async function deleteConversation(request: FastifyRequest<{ Params: { chatId: string } }>, reply: FastifyReply) {
+    const { chatId } = request.params;
+
+    try {
+        await db.execute({
+            sql: "DELETE FROM voltagent_memory_messages WHERE conversation_id = ?",
+            args: [chatId]
+        });
+
+        await db.execute({
+            sql: "DELETE FROM voltagent_memory_conversations WHERE id = ?",
+            args: [chatId]
+        });
+
+        return reply.send({ message: "Conversation deleted successfully" });
+    } catch (error) {
+        request.log.error(error);
+        return reply.code(500).send({ message: "Internal Server Error" });
+    }
+}
