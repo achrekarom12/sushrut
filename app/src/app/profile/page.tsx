@@ -113,11 +113,11 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="flex h-screen bg-[#fcfcfc] overflow-hidden text-slate-900">
+        <div className="flex h-screen bg-transparent overflow-hidden text-slate-900">
             <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-            <main className="flex-1 flex flex-col min-w-0 bg-white overflow-y-auto">
-                <header className="flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-slate-100 sticky top-0 z-10">
+            <main className="flex-1 flex flex-col min-w-0 bg-transparent overflow-y-auto">
+                <header className="flex items-center justify-between px-6 py-4 bg-white/60 backdrop-blur-xl border-b border-white/20 sticky top-0 z-10">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => setSidebarOpen(true)}
@@ -133,13 +133,17 @@ export default function ProfilePage() {
                     <div className="relative overflow-hidden p-8 rounded-[2.5rem] bg-indigo-600 text-white shadow-2xl shadow-indigo-200 animate-in zoom-in duration-500">
                         <div className="relative z-10">
                             <div className="flex items-center gap-4 mb-6">
-                                <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-2xl font-bold border border-white/20">
+                                <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-2xl font-semibold border border-white/20">
                                     {user?.name?.charAt(0)}
                                 </div>
                                 <div>
                                     <h3 className="text-2xl font-bold">{user?.name || 'User'}</h3>
                                     <p className="text-indigo-100 font-medium">
-                                        {user?.age || '--'} Years • {user?.gender || 'Unspecified'}
+                                        {user?.age || '--'} Years • {
+                                            user?.gender?.toLowerCase() === 'male' ? 'M' :
+                                                user?.gender?.toLowerCase() === 'female' ? 'F' :
+                                                    'Not Specified'
+                                        }
                                     </p>
                                 </div>
                             </div>
@@ -154,7 +158,7 @@ export default function ProfilePage() {
 
                     <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-700">
                         <div className="px-2">
-                            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-1">Medical Conditions</h4>
+                            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">Medical Conditions</h4>
                             <p className="text-sm text-slate-400 font-medium">Select any pre-existing health issues</p>
                         </div>
 
@@ -168,8 +172,8 @@ export default function ProfilePage() {
                                         className={cn(
                                             "flex items-center justify-between p-5 rounded-2xl border transition-all duration-300 group",
                                             isSelected
-                                                ? "bg-indigo-50 border-indigo-200 text-indigo-600"
-                                                : "bg-white border-slate-100 text-slate-500 hover:border-slate-300"
+                                                ? "bg-indigo-50/50 backdrop-blur-md border-indigo-200 text-indigo-600"
+                                                : "bg-white/40 backdrop-blur-sm border-white/40 text-slate-500 hover:border-indigo-200 hover:bg-white/60"
                                         )}
                                     >
                                         <span className="font-bold text-sm tracking-tight">{c.label}</span>

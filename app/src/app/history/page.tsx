@@ -101,11 +101,11 @@ function HistoryContent() {
     }
 
     return (
-        <div className="flex h-screen bg-[#fcfcfc] overflow-hidden text-slate-900">
+        <div className="flex h-screen bg-transparent overflow-hidden text-slate-900">
             <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-            <main className="flex-1 flex flex-col min-w-0 bg-white overflow-hidden">
-                <header className="flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-slate-100 sticky top-0 z-10">
+            <main className="flex-1 flex flex-col min-w-0 bg-transparent overflow-hidden">
+                <header className="flex items-center justify-between px-6 py-4 bg-white/60 backdrop-blur-xl border-b border-white/20 sticky top-0 z-10">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => setSidebarOpen(true)}
@@ -149,7 +149,7 @@ function HistoryContent() {
                                 {conversations.map((chat, idx) => (
                                     <div
                                         key={chat.id}
-                                        className="group relative flex flex-col p-6 rounded-[2rem] bg-white border border-slate-100 hover:border-indigo-100 hover:shadow-xl hover:shadow-indigo-50 transition-all duration-300 animate-in slide-in-from-bottom-4"
+                                        className="group relative flex flex-col p-6 rounded-[2.5rem] bg-white/60 backdrop-blur-md border border-white/40 hover:border-indigo-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 animate-in slide-in-from-bottom-4"
                                         style={{ animationDelay: `${idx * 50}ms` }}
                                     >
                                         <Link

@@ -52,7 +52,7 @@ function SidebarContent({ isOpen, onClose }: SidebarProps) {
 
             <aside
                 className={cn(
-                    "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-slate-100 transform transition-transform duration-300 ease-out lg:relative lg:translate-x-0 shadow-2xl lg:shadow-none",
+                    "fixed inset-y-0 left-0 z-50 w-72 bg-white/70 backdrop-blur-xl border-r border-white/20 transform transition-transform duration-300 ease-out lg:relative lg:translate-x-0 shadow-2xl lg:shadow-none",
                     isOpen ? "translate-x-0" : "-translate-x-full"
                 )}
             >
@@ -142,10 +142,10 @@ function SidebarContent({ isOpen, onClose }: SidebarProps) {
                         </div>
                     </nav>
 
-                    <div className="p-4 bg-white border-t border-slate-100">
+                    <div className="p-4 bg-transparent border-t border-white/20">
                         <button
                             onClick={logout}
-                            className="flex w-full items-center gap-3 px-4 py-3 rounded-2xl text-red-600 hover:bg-red-50 transition-all font-bold text-sm"
+                            className="flex w-full items-center gap-3 px-4 py-3 rounded-2xl text-red-600 hover:bg-red-50/50 transition-all font-semibold text-md"
                         >
                             <LogOut size={18} />
                             <span>Logout</span>
@@ -160,7 +160,7 @@ function SidebarContent({ isOpen, onClose }: SidebarProps) {
 export function Sidebar(props: SidebarProps) {
     return (
         <Suspense fallback={
-            <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-slate-100 lg:relative shadow-2xl lg:shadow-none animate-pulse" />
+            <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white/70 backdrop-blur-xl border-r border-white/20 lg:relative shadow-2xl lg:shadow-none animate-pulse" />
         }>
             <SidebarContent {...props} />
         </Suspense>

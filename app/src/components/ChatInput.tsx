@@ -32,8 +32,8 @@ export function ChatInput({ onSendMessage, onFileUpload, isUploading, isRespondi
     };
 
     return (
-        <div className="p-4 bg-white/50 backdrop-blur-md">
-            <form onSubmit={handleSubmit} className="flex items-end gap-3 p-2 bg-white rounded-[1.5rem] border border-slate-200 shadow-xl shadow-slate-200/40 focus-within:border-indigo-600/30 transition-all">
+        <div className="p-6 bg-transparent">
+            <form onSubmit={handleSubmit} className="flex items-end gap-3 p-2 bg-white/70 backdrop-blur-xl rounded-[2rem] border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.05)] focus-within:border-indigo-600/30 transition-all">
                 <input
                     type="file"
                     ref={fileInputRef}

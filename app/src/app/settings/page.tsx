@@ -125,11 +125,11 @@ export default function SettingsPage() {
     }
 
     return (
-        <div className="flex h-screen bg-[#fcfcfc] overflow-hidden text-slate-900">
+        <div className="flex h-screen bg-transparent overflow-hidden text-slate-900">
             <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-            <main className="flex-1 flex flex-col min-w-0 bg-white overflow-y-auto">
-                <header className="flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-slate-100 sticky top-0 z-10">
+            <main className="flex-1 flex flex-col min-w-0 bg-transparent overflow-y-auto">
+                <header className="flex items-center justify-between px-6 py-4 bg-white/60 backdrop-blur-xl border-b border-white/20 sticky top-0 z-10">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => setSidebarOpen(true)}
@@ -164,8 +164,8 @@ export default function SettingsPage() {
                                         className={cn(
                                             "flex items-center justify-between p-5 rounded-2xl border transition-all duration-300 group",
                                             isSelected
-                                                ? "bg-indigo-50 border-indigo-200 text-indigo-600 shadow-sm"
-                                                : "bg-white border-slate-100 text-slate-500 hover:border-slate-300 hover:bg-slate-50"
+                                                ? "bg-indigo-50/50 backdrop-blur-md border-indigo-200 text-indigo-600 shadow-sm"
+                                                : "bg-white/40 backdrop-blur-sm border-white/40 text-slate-500 hover:border-indigo-200 hover:bg-white/60"
                                         )}
                                     >
                                         <div className="flex items-center gap-4">
@@ -194,7 +194,7 @@ export default function SettingsPage() {
                             <p className="text-sm text-slate-400 font-medium ml-12">Manage your stored images and documents</p>
                         </div>
 
-                        <div className="bg-white border border-red-100 rounded-2xl overflow-hidden shadow-sm shadow-red-50/50">
+                        <div className="bg-white/40 backdrop-blur-md border border-red-200/50 rounded-2xl overflow-hidden shadow-sm shadow-red-50/50">
                             <div className="p-6">
                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                                     <div className="space-y-1">

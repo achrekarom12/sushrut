@@ -31,8 +31,8 @@ export function Message({ text, type, timestamp }: MessageProps) {
                     <div className={cn(
                         "px-5 py-3.5 rounded-[1.5rem] text-[15px] leading-relaxed shadow-sm",
                         isReceived
-                            ? "bg-white border border-slate-100 text-slate-800 rounded-tl-none shadow-slate-200/50"
-                            : "bg-indigo-600 text-white rounded-tr-none shadow-indigo-100 shadow-lg"
+                            ? "bg-white/60 backdrop-blur-md border border-white/40 text-slate-800 rounded-tl-none shadow-[0_4px_12px_rgba(0,0,0,0.03)]"
+                            : "bg-indigo-600/90 backdrop-blur-md text-white rounded-tr-none shadow-[0_4px_12px_rgba(79,70,229,0.3)]"
                     )}>
                         {isReceived ? (
                             <div className="markdown-content prose prose-sm prose-slate prose-p:leading-relaxed prose-headings:text-slate-900 prose-strong:text-slate-900 prose-code:bg-slate-50 prose-code:p-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">

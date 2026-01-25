@@ -95,11 +95,11 @@ export default function ReportsPage() {
     }
 
     return (
-        <div className="flex h-screen bg-[#fcfcfc] overflow-hidden text-slate-900">
+        <div className="flex h-screen bg-transparent overflow-hidden text-slate-900">
             <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-            <main className="flex-1 flex flex-col min-w-0 bg-white overflow-y-auto">
-                <header className="flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-slate-100 sticky top-0 z-10">
+            <main className="flex-1 flex flex-col min-w-0 bg-transparent overflow-y-auto">
+                <header className="flex items-center justify-between px-6 py-4 bg-white/60 backdrop-blur-xl border-b border-white/20 sticky top-0 z-10">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => setSidebarOpen(true)}
@@ -137,11 +137,11 @@ export default function ReportsPage() {
                     <section className="space-y-6 animate-in slide-in-from-bottom-4 duration-700">
                         <div className="px-2 flex items-center justify-between">
                             <div>
-                                <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-1">PDF Reports</h4>
+                                <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">PDF Reports</h4>
                                 <p className="text-sm text-slate-400 font-medium">Documents and Lab Results</p>
                             </div>
                             <span className="text-[10px] bg-slate-100 text-slate-500 px-3 py-1 rounded-full font-bold uppercase tracking-wider">
-                                {pdfs.length} Files
+                                {pdfs.length} {pdfs.length === 1 ? 'File' : 'Files'}
                             </span>
                         </div>
 
@@ -149,7 +149,7 @@ export default function ReportsPage() {
                             {pdfs.length > 0 ? pdfs.map((file: any, i: number) => (
                                 <div
                                     key={i}
-                                    className="group flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-white hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-50/50 transition-all duration-300"
+                                    className="group flex items-center justify-between p-4 rounded-2xl border border-white/40 bg-white/60 backdrop-blur-md hover:border-indigo-200 hover:shadow-xl hover:shadow-indigo-50/50 transition-all duration-300"
                                 >
                                     <div className="flex items-center gap-4 min-w-0">
                                         <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
@@ -186,11 +186,11 @@ export default function ReportsPage() {
                     <section className="space-y-6 animate-in slide-in-from-bottom-4 duration-700 delay-150">
                         <div className="px-2 flex items-center justify-between">
                             <div>
-                                <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-1">Visuals & Scans</h4>
+                                <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">Visuals & Scans</h4>
                                 <p className="text-sm text-slate-400 font-medium">X-Rays, MRIs, and medical photos</p>
                             </div>
                             <span className="text-[10px] bg-slate-100 text-slate-500 px-3 py-1 rounded-full font-bold uppercase tracking-wider">
-                                {images.length} Files
+                                {images.length} {images.length === 1 ? 'File' : 'Files'}
                             </span>
                         </div>
 
@@ -198,7 +198,7 @@ export default function ReportsPage() {
                             {images.length > 0 ? images.map((file: any, i: number) => (
                                 <div
                                     key={i}
-                                    className="group flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-white hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-50/50 transition-all duration-300"
+                                    className="group flex items-center justify-between p-4 rounded-2xl border border-white/40 bg-white/60 backdrop-blur-md hover:border-indigo-200 hover:shadow-xl hover:shadow-indigo-50/50 transition-all duration-300"
                                 >
                                     <div className="flex items-center gap-4 min-w-0">
                                         <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600">

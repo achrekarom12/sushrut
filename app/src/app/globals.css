@@ -8,11 +8,14 @@
 }
 
 :root {
-  background-color: white;
+  background: radial-gradient(circle at top left, #f8fafc, #f1f5f9, #e2e8f0);
+  background-attachment: fixed;
   color: #0f172a;
 }
 
 body {
-  background-color: white !important;
+  background: radial-gradient(circle at top left, #f8fafc, #f1f5f9, #e2e8f0) !important;
+  background-attachment: fixed !important;
   color: #0f172a !important;
+  min-height: 100vh;
 }

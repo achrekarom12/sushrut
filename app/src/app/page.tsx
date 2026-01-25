@@ -204,12 +204,12 @@ function ChatContent() {
   }
 
   return (
-    <div className="flex h-screen bg-[#fcfcfc] overflow-hidden text-slate-900">
+    <div className="flex h-screen bg-transparent overflow-hidden text-slate-900">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <main className="flex-1 flex flex-col min-w-0 bg-white relative">
+      <main className="flex-1 flex flex-col min-w-0 bg-transparent relative">
         {/* Header */}
-        <header className="flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-slate-100 z-30 sticky top-0">
+        <header className="flex items-center justify-between px-6 py-4 bg-white/60 backdrop-blur-xl border-b border-white/20 z-30 sticky top-0">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -222,10 +222,10 @@ function ChatContent() {
                 <Hospital size={20} />
               </div>
               <div>
-                <h2 className="text-sm font-bold text-slate-900 leading-tight">Sushrut AI</h2>
+                <h2 className="text-md font-semibold text-slate-900 leading-tight">Sushrut</h2>
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Medical Assistant</span>
+                  <span className="text-[10px] text-slate-400 font-bold tracking-wider">Always with you 24x7</span>
                 </div>
               </div>
             </div>
@@ -253,7 +253,7 @@ function ChatContent() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-white/40 relative z-10">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-transparent relative z-10">
           <div className="max-w-3xl mx-auto py-4">
             {messages.map((msg, i) => (
               <Message key={i} {...msg} />

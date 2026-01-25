@@ -66,7 +66,7 @@ export function Modal({
                 onClick={onClose}
             />
 
-            <div className="relative w-full max-w-md bg-white rounded-[2rem] shadow-2xl border border-slate-100 overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
+            <div className="relative w-full max-w-md bg-white/70 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/40 overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
                 <div className="p-6 sm:p-8">
                     <div className="flex items-start justify-between mb-6">
                         <div className={cn("p-3 rounded-2xl", bgColors[type])}>
