@@ -102,13 +102,36 @@ function ChatContent() {
         })
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setMessages(prev => [...prev, {
-          text: data.text,
-          type: 'received',
-          timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
-        }]);
+      if (response.ok && response.body) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let aiText = "";
+
+        // Add an empty placeholder message for the AI response
+        const timestamp = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+        setMessages(prev => [...prev, { text: '', type: 'received', timestamp }]);
+
+        // Stop showing the bouncing dots once we start receiving tokens
+        setIsResponding(false);
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+          aiText += chunk;
+
+          setMessages(prev => {
+            const updated = [...prev];
+            if (updated.length > 0) {
+              updated[updated.length - 1] = {
+                ...updated[updated.length - 1],
+                text: aiText
+              };
+            }
+            return updated;
+          });
+        }
       } else {
         setMessages(prev => [...prev, {
           text: "I'm sorry, I'm having trouble responding right now. Please try again later.",

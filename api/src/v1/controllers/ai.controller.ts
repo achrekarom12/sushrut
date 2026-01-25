@@ -40,16 +40,43 @@ export async function chat(request: FastifyRequest<{ Body: AIChatRequest }>, rep
             conversationId: chatId,
         });
 
-        let response = "";
+        reply.raw.writeHead(200, {
+            "Content-Type": "text/plain; charset=utf-8",
+            "Transfer-Encoding": "chunked",
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        });
 
-        for await (const chunk of result.textStream) {
-            response += chunk;
+        try {
+            for await (const chunk of result.textStream) {
+                if (reply.raw.destroyed) break;
+                console.log(chunk);
+                reply.raw.write(chunk);
+            }
+        } catch (streamError: any) {
+            // Ignore closed stream errors if we've already started sending data
+            if (!streamError.message?.includes("closed") && !streamError.message?.includes("WritableStream")) {
+                throw streamError;
+            }
+            request.log.warn({ err: streamError }, "Stream error ignored");
         }
 
-        return reply.send({ text: response });
+        if (!reply.raw.writableEnded) {
+            reply.raw.end();
+        }
+        return reply;
     } catch (error) {
         request.log.error(error);
-        return reply.code(500).send({ message: "Internal Server Error" });
+        if (!reply.raw.headersSent) {
+            return reply.code(500).send({ message: "Internal Server Error" });
+        }
+        if (!reply.raw.writableEnded) {
+            reply.raw.end();
+        }
+        return reply;
     }
 }
 

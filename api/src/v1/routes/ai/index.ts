@@ -12,9 +12,6 @@ export default async function (fastify: FastifyInstance) {
                 .prop('userId', S.string().required())
                 .prop('chatId', S.string().required())
                 .valueOf(),
-            response: {
-                200: S.object().prop('text', S.string()).valueOf(),
-            },
         },
     }, aiController.chat);
 
