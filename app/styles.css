@@ -1128,3 +1128,55 @@ select.form-input {
     justify-content: center;
     align-items: center;
 }
+/* Language Section Styles */
+.language-section {
+    margin-top: auto;
+    padding-bottom: var(--spacing-md);
+}
+
+.language-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.language-option:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--border-medium);
+}
+
+.language-option input[type="radio"] {
+    width: 1.125rem;
+    height: 1.125rem;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.language-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.language-option:has(input:checked) {
+    background: rgba(99, 102, 241, 0.05);
+    border-color: var(--primary);
+}
+
+.language-option:has(input:checked) .language-label {
+    color: var(--primary);
+    font-weight: 600;
+}

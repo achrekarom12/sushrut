@@ -27,9 +27,10 @@ class UserService {
     async create(userData: CreateUserDTO): Promise<User> {
         const id = uuidv4();
         const createdAt = new Date().toISOString();
+        const languagePreference = userData.languagePreference || 'english';
 
         await db.execute({
-            sql: 'INSERT INTO users (id, name, age, phonenumber, gender, password, healthMetadata, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            sql: 'INSERT INTO users (id, name, age, phonenumber, gender, password, healthMetadata, languagePreference, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
             args: [
                 id,
                 userData.name,
@@ -38,6 +39,7 @@ class UserService {
                 userData.gender,
                 userData.password || null,
                 userData.healthMetadata || null,
+                languagePreference,
                 createdAt
             ]
         });
@@ -45,6 +47,7 @@ class UserService {
         return {
             id,
             ...userData,
+            languagePreference,
             createdAt
         };
     }
@@ -60,10 +63,11 @@ class UserService {
             gender: userData.gender ?? currentUser.gender,
             password: userData.password ?? currentUser.password,
             healthMetadata: userData.healthMetadata ?? currentUser.healthMetadata,
+            languagePreference: userData.languagePreference ?? currentUser.languagePreference,
         };
 
         await db.execute({
-            sql: 'UPDATE users SET name = ?, age = ?, phonenumber = ?, gender = ?, password = ?, healthMetadata = ? WHERE id = ?',
+            sql: 'UPDATE users SET name = ?, age = ?, phonenumber = ?, gender = ?, password = ?, healthMetadata = ?, languagePreference = ? WHERE id = ?',
             args: [
                 updatedUser.name,
                 updatedUser.age,
@@ -71,6 +75,7 @@ class UserService {
                 updatedUser.gender,
                 updatedUser.password || null,
                 updatedUser.healthMetadata || null,
+                updatedUser.languagePreference || 'english',
                 id
             ]
         });

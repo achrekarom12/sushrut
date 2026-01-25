@@ -1,0 +1,75 @@
+Since the provided cardiology document does not contain guidelines for diabetes, I will provide a Standard Treatment Guideline (STG) for **Type 2 Diabetes Mellitus (T2DM)** tailored specifically to the **Indian population**, based on established clinical knowledge and regional adaptations (such as those from RSSDI and ICMR).
+
+---
+
+## 1. Screening and Diagnosis
+
+In India, diabetes often occurs at a lower Body Mass Index (BMI) and a younger age compared to Western populations.
+
+* **Screening Age:** Universal screening should start at **age 25** for Indians with one or more risk factors (obesity, hypertension, sedentary lifestyle, or family history).
+* **BMI Cut-offs for Indians:**
+* **Overweight:** BMI 
+* **Obesity:** BMI 
+* **Abdominal Obesity:** Waist circumference  (Men) and  (Women).
+
+
+* **Diagnostic Criteria:**
+* **HbA1c:** 
+* **Fasting Plasma Glucose (FPG):** 
+* **2-hour Post-Prandial Glucose (PPG):** 
+
+
+
+---
+
+## 2. Therapeutic Goals
+
+Management should be individualized based on age, comorbidities, and risk of hypoglycemia.
+
+| Parameter | Target for Most Adults |
+| --- | --- |
+| **HbA1c** |  (Tighter 6.5% for young; 8.0% for elderly) |
+| **Fasting Glucose** |  |
+| **Post-Prandial Glucose** |  |
+| **Blood Pressure** |  |
+
+---
+
+## 3. Lifestyle Management (Medical Nutrition Therapy)
+
+Dietary habits in India are typically high-carbohydrate, necessitating specific modifications.
+
+* **Carbohydrate Quality:** Focus on complex carbs with a low Glycemic Index (e.g., brown rice, whole wheat, millets) instead of refined flour (maida) or white rice.
+* **Protein Intake:** Ensure adequate protein (1g/kg body weight), particularly for vegetarians using pulses, legumes, and dairy.
+* **Fiber:** Increase intake of green leafy vegetables and salads.
+* **Physical Activity:** * At least **150 minutes per week** of moderate-intensity aerobic activity (brisk walking).
+* Include resistance/strength training 2–3 times per week.
+
+
+
+---
+
+## 4. Pharmacological Management
+
+### 4.1 First-Line Therapy
+
+* **Metformin:** remains the gold standard. Start with  once or twice daily with meals to minimize GI side effects.
+
+### 4.2 Second-Line/Combination Therapy
+
+If targets are not met within 3 months, add a second agent based on the clinical profile:
+
+* **For Weight Loss/Cardio-Renal Protection:** SGLT2 inhibitors (e.g., Dapagliflozin) or GLP-1 receptor agonists.
+* **For High Post-Prandial Spikes (Common in India):** Alpha-glucosidase inhibitors (Voglibose or Acarbose) or DPP-4 inhibitors (e.g., Sitagliptin, Vildagliptin).
+* **Cost-Effective Option:** Sulfonylureas (Glimepiride or Gliclazide), though these carry a higher risk of hypoglycemia.
+
+---
+
+## 5. Annual Screening for Complications
+
+Early detection is vital to prevent end-organ damage.
+
+1. **Kidneys:** Urinary albumin-to-creatinine ratio (UACR) and eGFR.
+2. **Eyes:** Comprehensive dilated eye exam for retinopathy.
+3. **Feet:** Monofilament test for neuropathy and pulse palpation for Peripheral Vascular Disease (PVD).
+4. **Heart:** Regular lipid profile and ECG.

@@ -1,0 +1,178 @@
+This standard treatment guideline (STG) for cardiovascular diseases in India is based on the consensus documents prepared by the Ministry of Health & Family Welfare.
+
+---
+
+## 1. Congenital Heart Disease (CHD)
+
+### 1.1 Cyanotic Heart Disease & Spells
+
+Cyanotic spells are pediatric emergencies occurring most commonly in infants under 2 years old (peaking between 2–6 months).
+
+**Recognition of a Spell:**
+
+* 
+**Physical Signs:** Crying, irritability, deep and rapid breathing (tachypnea) without subcostal recession, and deepening cyanosis.
+
+
+* 
+**Advanced Signs:** Gasping, apnea, limpness, and anoxic seizures.
+
+
+* 
+**Auscultation:** Softening or disappearance of pulmonary ejection murmur.
+
+
+
+**Emergency Management:**
+
+1. 
+**Airway/Oxygen:** Deliver oxygen via mask or a tube held 0.5–1 inch from the nose.
+
+
+2. 
+**Positioning:** Place the child in the **Knee-chest position**.
+
+
+3. 
+**Sedation:** Subcutaneous morphine () or I/M ketamine ().
+
+
+4. 
+**Fluid & pH:** Sodium bicarbonate () and volume expansion ( bolus).
+
+
+5. 
+**Beta-blockade:** IV Metoprolol ( slowly) or IV Esmolol.
+
+
+6. 
+**Persistent Spells:** Consider paralysis, intubation, and urgent surgery (corrective or palliative BT shunt).
+
+
+
+### 1.2 Left to Right Shunts
+
+Intervention timing is critical and involves balancing the natural history of the defect with procedural risks. While awaiting surgery or catheter intervention, patients should be managed with medical therapy as per national expert consensus.
+
+---
+
+## 2. Acute Rheumatic Fever (RF)
+
+Effective management centers on secondary penicillin prophylaxis to prevent Rheumatic Heart Disease (RHD).
+
+**Initial Management Algorithm:**
+
+* 
+**All patients:** Admit for bed rest.
+
+
+* 
+**Polyarthritis:** Treat with salicylates for 4–6 weeks; monitor for rebound.
+
+
+* **Carditis:**
+* 
+*Mild:* Salicylates for 4–6 weeks with tapering doses.
+
+
+* 
+*Severe Heart Failure:* Steroids, followed by overlapping salicylates as steroids are tapered.
+
+
+
+
+* 
+**Chorea:** Managed with sedatives or haloperidol; monitor for carditis with echocardiography.
+
+
+
+---
+
+## 3. Non-ST Elevation Acute Coronary Syndrome (NSTE-ACS)
+
+Includes Unstable Angina (UA) and Non-ST Elevation MI (NSTEMI).
+
+### 3.1 Diagnosis and Risk Stratification
+
+* 
+**Diagnosis:** Based on clinical presentation (e.g., retrosternal pressure lasting >20 min), ECG (ST depression or T wave inversion), and biochemical markers.
+
+
+* 
+**Biomarker of Choice:** Cardiac Troponin (TnI or TnT) is the most sensitive; samples should be taken at 0, 6–9, and 12–24 hours if initial tests are negative.
+
+
+* 
+**TIMI Risk Score:** Used to categorize patients; a score  indicates intermediate or high risk.
+
+
+
+### 3.2 Pharmacological Management
+
+* 
+**Antiplatelets:** Aspirin (162–325 mg chewed) plus a second agent (Clopidogrel, Prasugrel, or Ticagrelor).
+
+
+* 
+**Anticoagulants:** Enoxaparin ( twice daily) or Fondaparinux ( daily).
+
+
+* 
+**Anti-ischemic:** Nitrates for pain (caution if systolic BP <100 mmHg), oral beta-blockers, and morphine for refractory pain.
+
+
+* 
+**Secondary Prevention:** Statins (target LDL ), ACE inhibitors, and lifestyle changes.
+
+
+
+> 
+> **Important:** Thrombolytic therapy is **contraindicated** and potentially harmful in UA and NSTEMI.
+> 
+> 
+
+---
+
+## 4. ST Elevation Myocardial Infarction (STEMI)
+
+### 4.1 Diagnosis
+
+Suspicion arises with chest pain lasting 10–20 minutes. A 12-lead ECG should be interpreted within **10 minutes** of arrival.
+
+### 4.2 Reperfusion Therapy
+
+Reperfusion must be initiated for patients presenting within 12 hours of symptom onset.
+
+* 
+**Primary PCI:** Preferred if door-to-balloon time is <90 minutes.
+
+
+* 
+**Fibrinolytic Therapy:** The most practicable strategy for much of India.
+
+
+* 
+**Streptokinase:** Traditional choice, given as a 1-hour infusion.
+
+
+* 
+**Tenecteplase:** Fibrin-specific, bolus dose (), preferred for its ease of use and safety profile.
+
+
+
+
+
+### 4.3 High-Risk Features for Transfer
+
+Patients with these characteristics should be transferred to a facility with a Cath Lab/CCU:
+
+* Age  years.
+
+
+* Killip class III or IV (Heart failure/Shock).
+
+
+* Systolic BP <100 mmHg or Heart rate .
+
+
+* Failed fibrinolytic therapy.

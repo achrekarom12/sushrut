@@ -33,13 +33,19 @@ export async function chat(request: FastifyRequest<{ Body: AIChatRequest }>, rep
             }
         }
 
-        const agent = await initializeAgent(user?.name || "", user?.age || 0, user?.gender || "", comorbidities);
-        const result = await agent.generateText(text, {
+        const agent = await initializeAgent(user?.name || "", user?.age || 0, user?.gender || "", user?.languagePreference || "", comorbidities);
+        const result = await agent.streamText(text, {
             userId: userId,
             conversationId: threadId,
         });
 
-        return reply.send({ text: result.text });
+        let response = "";
+
+        for await (const chunk of result.textStream) {
+            response += chunk;
+        }
+
+        return reply.send({ text: response });
     } catch (error) {
         request.log.error(error);
         return reply.code(500).send({ message: "Internal Server Error" });

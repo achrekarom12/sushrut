@@ -1,0 +1,78 @@
+Since the provided cardiology document focuses on ACS and congenital defects, it doesn't detail a primary management protocol for Hypertension. I’ll provide a Standard Treatment Guideline (STG) for **Hypertension** tailored to the **Indian population**, drawing from the **Indian Hypertension Guidelines (IHS)** and the **Indian Hypertension Control Initiative (IHCI)**.
+
+---
+
+## 1. Classification of Blood Pressure
+
+In India, hypertension is often diagnosed late, so regular screening is vital for anyone over 18.
+
+| Category | Systolic (mmHg) | Diastolic (mmHg) |
+| --- | --- | --- |
+| **Normal** |  |  |
+| **Pre-Hypertension** |  |  |
+| **Stage 1 Hypertension** |  |  |
+| **Stage 2 Hypertension** |  |  |
+
+---
+
+## 2. Diagnosis and Assessment
+
+* **Measurement:** Diagnosis should be based on the average of at least two readings taken on two separate occasions.
+* **White-Coat Effect:** Common in India; if clinic readings are high but the patient seems low-risk, Home Blood Pressure Monitoring (HBPM) is recommended.
+* **Initial Tests:**
+* Urine analysis (for protein/albumin).
+* Fasting blood glucose (to check for co-existing diabetes).
+* Serum creatinine and electrolytes.
+* ECG to check for Left Ventricular Hypertrophy (LVH).
+
+
+
+---
+
+## 3. Lifestyle Modifications (The "Indian Context")
+
+Lifestyle is the first line of defense, especially for pre-hypertension.
+
+* **Salt Restriction:** Aim for  per day. In India, this specifically means reducing "hidden" salts in pickles, papads, chutneys, and salted snacks (namkeen).
+* **DASH Diet (Indianized):** High intake of fruits, vegetables, and low-fat dairy. Increase potassium intake through coconut water or bananas (unless the patient has kidney issues).
+* **Weight Reduction:** Maintain a BMI  and a waist circumference  for men and  for women.
+* **Physical Activity:** 30–60 minutes of moderate-intensity aerobic exercise (like brisk walking) at least 5 days a week.
+* **Limit Alcohol & Tobacco:** Complete cessation of tobacco is mandatory to reduce cardiovascular risk.
+
+---
+
+## 4. Pharmacological Management
+
+For most Indians, the "A-B-C-D" protocol is used, starting with a single drug for Stage 1 and often dual therapy for Stage 2.
+
+### 4.1 Choice of Initial Drug
+
+1. **ACE Inhibitors (A):** (e.g., Enalapril, Ramipril) or **ARBs** (e.g., Telmisartan, Losartan). Note: The uploaded cardiology document confirms ACE inhibitors are indicated for patients with proven CAD.
+
+
+2. **Calcium Channel Blockers (C):** (e.g., Amlodipine). Highly effective in the Indian population.
+3. **Diuretics (D):** (e.g., Chlorthalidone, Indapamide). Preferred as an add-on or in the elderly.
+4. 
+**Beta-blockers (B):** Usually not first-line for "plain" hypertension unless the patient has a co-existing condition like post-MI or heart failure.
+
+
+
+### 4.2 Combination Therapy
+
+If BP is , starting with a **Single Pill Combination (SPC)**—typically an ARB + CCB—is now the preferred Indian standard to improve patient compliance.
+
+---
+
+## 5. Treatment Targets
+
+The goal is to reduce long-term cardiovascular events.
+
+* **General Target:** .
+* 
+**High-Risk Target:**  for patients with Diabetes, Chronic Kidney Disease, or established Coronary Artery Disease.
+
+
+
+> **A Note on "The Silent Killer":** Many patients stop medication once they "feel fine." Education must emphasize that hypertension is a chronic condition requiring lifelong management, even when asymptomatic.
+
+Would you like me to create a **medication adherence checklist** or a **home-monitoring log template** for you?

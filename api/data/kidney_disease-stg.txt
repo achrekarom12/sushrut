@@ -1,0 +1,69 @@
+The following Standard Treatment Guideline (STG) for **Thyroid Disorders** is tailored for the Indian population, where Iodine Deficiency Disorders (IDD) and Autoimmune Thyroiditis (Hashimoto's) are the leading causes of thyroid dysfunction.
+
+---
+
+## 1. Hypothyroidism
+
+Hypothyroidism is the most common thyroid disorder in India, frequently affecting women of reproductive age.
+
+### 1.1 Diagnosis
+
+* **Primary Screen:** Serum **TSH (Thyroid Stimulating Hormone)** is the most sensitive first-line test.
+* **Confirmatory Tests:** If TSH is high, test for **Free T4**.
+* **Etiology:** Anti-TPO (Thyroid Peroxidase) antibodies help diagnose Hashimoto's thyroiditis.
+* **Subclinical Hypothyroidism:** Defined as an elevated TSH with a normal Free T4. Treatment is generally started if TSH  or if the patient is pregnant.
+
+### 1.2 Management
+
+* **First-Line Therapy:** **Levothyroxine** (T4).
+* **Administration:** Must be taken on an empty stomach, at least 30–60 minutes before breakfast, with water only.
+* **Dosage:** Typically  body weight/day. In the elderly or those with cardiac issues, start with a lower dose ().
+* **Monitoring:** Re-check TSH 6–8 weeks after starting or changing the dose.
+
+---
+
+## 2. Hyperthyroidism
+
+Characterized by excessive thyroid hormone production, often due to Graves' Disease.
+
+### 2.1 Diagnosis
+
+* **Profile:** Low TSH with elevated Free T4 and/or Free T3.
+* **Graves' Disease:** Suspected if the patient has a goiter (enlarged neck) or bulging eyes (ophthalmopathy).
+* **Imaging:** Radioactive Iodine Uptake (RAIU) scan helps differentiate Graves' from thyroiditis.
+
+### 2.2 Management
+
+* **Anti-Thyroid Drugs (ATDs):** **Methimazole** (preferred) or **Propylthiouracil (PTU)** (preferred in the first trimester of pregnancy).
+* **Symptom Control:** Beta-blockers (e.g., Propranolol) are used to manage rapid heart rate and tremors.
+* **Definitive Therapy:** Radioactive Iodine (RAI) ablation or total thyroidectomy if ATDs fail or are not tolerated.
+
+---
+
+## 3. Thyroid and Pregnancy
+
+Thyroid health is critical for fetal brain development. In India, universal screening for TSH is recommended as soon as pregnancy is confirmed.
+
+| Trimester | TSH Target Range |
+| --- | --- |
+| **First Trimester** |  |
+| **Second Trimester** |  |
+| **Third Trimester** |  |
+
+---
+
+## 4. Goiter and Thyroid Nodules
+
+A goiter is an enlarged thyroid gland, common in India's "Goiter Belt" (the Himalayan and sub-Himalayan regions).
+
+* **Assessment:** Physical palpation followed by an **Ultrasound of the Neck**.
+* **Fine Needle Aspiration Cytology (FNAC):** Performed if a nodule is found to rule out thyroid cancer.
+* **Iodine Status:** Ensure the use of **Iodized Salt**, which has been the cornerstone of India's National Iodine Deficiency Disorders Control Programme.
+
+---
+
+## 5. Lifestyle and Nutrition
+
+* **Iodine:** Use iodized salt. However, avoid excessive iodine (like kelp supplements) which can trigger autoimmune issues.
+* **Goitrogens:** For those with iodine deficiency, limit raw intake of cruciferous vegetables (cabbage, cauliflower, broccoli), though cooking usually neutralizes these compounds.
+* **Iron and Calcium:** Do not take iron or calcium supplements within 4 hours of your thyroid medication, as they interfere with absorption.

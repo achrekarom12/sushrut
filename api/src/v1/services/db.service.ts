@@ -17,6 +17,7 @@ export const initDb = async () => {
       gender TEXT NOT NULL,
       password TEXT,
       healthMetadata TEXT,
+      languagePreference TEXT DEFAULT 'english',
       createdAt TEXT NOT NULL
     )
   `);
@@ -24,6 +25,13 @@ export const initDb = async () => {
   // Ensure healthMetadata column exists for existing tables
   try {
     await client.execute('ALTER TABLE users ADD COLUMN healthMetadata TEXT');
+  } catch (e) {
+    // Column might already exist, ignore error
+  }
+
+  // Ensure languagePreference column exists for existing tables
+  try {
+    await client.execute("ALTER TABLE users ADD COLUMN languagePreference TEXT DEFAULT 'english'");
   } catch (e) {
     // Column might already exist, ignore error
   }

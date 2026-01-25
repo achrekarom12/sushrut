@@ -1,6 +1,6 @@
 // API Configuration
-const API_BASE_URL = 'https://sushrut-870116182456.europe-west1.run.app/v1';
-// const API_BASE_URL = 'http://10.125.167.198:3000/v1';
+// const API_BASE_URL = 'https://sushrut-870116182456.europe-west1.run.app/v1';
+const API_BASE_URL = 'http://10.125.167.198:3000/v1';
 
 // LocalStorage Keys
 const STORAGE_KEYS = {
@@ -17,6 +17,11 @@ if (typeof marked !== 'undefined') {
         mangle: false
     });
 }
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+    initLanguageListeners();
+});
 
 // Get DOM elements
 const loginScreen = document.getElementById('login-screen');
@@ -500,6 +505,13 @@ function loadUserData() {
             if (userAgeInput) userAgeInput.value = userData.age || '';
             if (userGenderInput) userGenderInput.value = userData.gender || '';
 
+            // Set language preference
+            const language = userData.languagePreference || 'english';
+            const languageInput = document.querySelector(`input[name="language"][value="${language}"]`);
+            if (languageInput) {
+                languageInput.checked = true;
+            }
+
             // Render reports
             renderReports(userData);
         } catch (error) {
@@ -607,6 +619,51 @@ function renderReports(userData) {
             const url = btn.getAttribute('data-url');
             deleteFile(url);
         };
+    });
+}
+
+// Language Preference Handler
+async function handleLanguageChange(e) {
+    const selectedLanguage = e.target.value;
+    const savedData = localStorage.getItem(STORAGE_KEYS.USER_DATA);
+    if (!savedData) return;
+
+    const currentUser = JSON.parse(savedData);
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/${currentUser.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ languagePreference: selectedLanguage })
+        });
+
+        if (response.ok) {
+            const user = await response.json();
+            // Update localStorage
+            localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(user));
+            console.log('Language preference updated to:', selectedLanguage);
+
+            // Optional: Provide visual feedback
+            const activeLabel = e.target.closest('.language-option');
+            activeLabel.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+            setTimeout(() => {
+                activeLabel.style.backgroundColor = '';
+            }, 500);
+        } else {
+            console.error('Failed to update language preference');
+        }
+    } catch (error) {
+        console.error('Language update error:', error);
+    }
+}
+
+// Initialize language listeners
+function initLanguageListeners() {
+    const languageInputs = document.querySelectorAll('input[name="language"]');
+    languageInputs.forEach(input => {
+        input.addEventListener('change', handleLanguageChange);
     });
 }
 

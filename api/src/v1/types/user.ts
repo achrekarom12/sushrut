@@ -6,6 +6,7 @@ export interface User {
   gender: string;
   password?: string;
   healthMetadata?: string;
+  languagePreference?: string;
   createdAt: string;
 }
 
@@ -16,6 +17,7 @@ export interface CreateUserDTO {
   gender: string;
   password?: string;
   healthMetadata?: string;
+  languagePreference?: string;
 }
 
 export interface UpdateUserDTO {
@@ -25,6 +27,7 @@ export interface UpdateUserDTO {
   gender?: string;
   password?: string;
   healthMetadata?: string;
+  languagePreference?: string;
 }
 
 export interface LoginDTO {

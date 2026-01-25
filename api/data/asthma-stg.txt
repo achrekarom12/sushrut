@@ -1,0 +1,81 @@
+The following Standard Treatment Guideline (STG) for **Asthma** is tailored to the Indian context, incorporating the **Global Initiative for Asthma (GINA)** standards and regional considerations like high pollution and biomass fuel exposure.
+
+---
+
+## 1. Diagnosis and Assessment
+
+Asthma in India is often underdiagnosed or misdiagnosed as "bronchitis" or "chronic cough."
+
+* 
+**Symptoms:** Characterized by wheezing, shortness of breath, chest tightness, and cough that varies over time and intensity.
+
+
+* 
+**Physical Examination:** Often reveals expiratory wheezing upon auscultation.
+
+
+* **Confirmatory Test (Spirometry/PFT):** Required to demonstrate reversible airflow obstruction (an increase in  of  and  after bronchodilator inhalation).
+* **Peak Expiratory Flow (PEF):** A valuable, low-cost tool for monitoring in Indian primary care settings.
+
+---
+
+## 2. Management Goals
+
+The aim is to achieve good symptom control and minimize the risk of exacerbations and fixed airflow limitation.
+
+| Control Level | Characteristics |
+| --- | --- |
+| **Well Controlled** | Daytime symptoms /week; No night waking; SABA use /week. |
+| **Partly Controlled** | Daytime symptoms /week; Any night waking; SABA use /week. |
+| **Uncontrolled** | 3 or more features of partial control present in any week. |
+
+---
+
+## 3. Pharmacological Treatment (The Stepwise Approach)
+
+The modern standard has shifted away from using Short-Acting Beta-Agonists (SABA) alone due to the risk of severe exacerbations.
+
+### 3.1 Controller and Reliever Strategy
+
+* **Preferred Reliever:** Low-dose **Inhaled Corticosteroid (ICS)-Formoterol** is now recommended as the reliever of choice for all steps.
+* **Step 1 & 2:** As-needed low-dose ICS-Formoterol.
+* **Step 3:** Maintenance and Reliever Therapy (MART) using low-dose ICS-Formoterol.
+* **Step 4:** Medium-dose ICS-Formoterol as maintenance and reliever.
+* **Step 5:** Refer to a specialist for phenotypic assessment and consideration of biologics or Add-on LAMA (Tiotropium).
+
+---
+
+## 4. Inhalation Technique and Education
+
+The most common cause of "treatment-resistant" asthma in India is incorrect inhaler technique.
+
+* 
+**Device Selection:** Metered-Dose Inhalers (MDI) with a **Spacer** are preferred for children and the elderly to ensure drug delivery.
+
+
+* **Dry Powder Inhalers (DPI):** Widely used in India; requires a forceful, deep inhalation.
+* **Education:** Patients must be taught the difference between "Controller" (daily) and "Reliever" (emergency) medications.
+
+---
+
+## 5. Environmental and Lifestyle Modifications
+
+* **Pollution Management:** Avoid outdoor activities during high AQI days; use of N95 masks when commuting in heavy traffic.
+* **Indoor Triggers:** Avoid incense sticks (agarbatti), strong perfumes, and tobacco smoke.
+* **Biomass Fuel:** In rural settings, encourage the use of "chulhas" with chimneys or LPG to reduce smoke exposure.
+* **Co-morbidities:** Treat allergic rhinitis and Gastroesophageal Reflux Disease (GERD), as these frequently worsen asthma control.
+
+---
+
+## 6. Acute Emergency Management
+
+A "Severe Asthma Attack" is a medical emergency requiring prompt intervention.
+
+1. 
+**Oxygen:** Maintain saturation between .
+
+
+2. **SABA:** Frequent nebulization with Salbutamol () every 20 minutes for one hour.
+3. **Systemic Steroids:** Oral Prednisolone ( up to ) or IV Hydrocortisone.
+4. **Ipratropium Bromide:** Add to SABA for severe exacerbations.
+5. **Magnesium Sulfate:** Consider a single dose of IV  ( over 20 mins) in severe cases not responding to initial therapy.
