@@ -10,10 +10,27 @@ export default async function (fastify: FastifyInstance) {
             body: S.object()
                 .prop('text', S.string().required())
                 .prop('userId', S.string().required())
+                .prop('chatId', S.string().required())
                 .valueOf(),
             response: {
                 200: S.object().prop('text', S.string()).valueOf(),
             },
         },
     }, aiController.chat);
+
+    fastify.get('/conversations/:userId', {
+        schema: {
+            description: 'Get user conversations',
+            tags: ['AI'],
+            params: S.object().prop('userId', S.string().required()).valueOf(),
+        },
+    }, aiController.getConversations);
+
+    fastify.get('/conversations/:chatId/messages', {
+        schema: {
+            description: 'Get conversation messages',
+            tags: ['AI'],
+            params: S.object().prop('chatId', S.string().required()).valueOf(),
+        },
+    }, aiController.getMessages);
 }

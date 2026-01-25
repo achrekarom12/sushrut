@@ -5,19 +5,19 @@ import { useAuth } from '@/context/AuthContext';
 import { Sidebar } from '@/components/Sidebar';
 import { Message } from '@/components/Message';
 import { ChatInput } from '@/components/ChatInput';
+import { generateChatId } from '@/lib/utils';
 import { Menu, User, Loader2, Hospital, AlertCircle } from 'lucide-react';
 import { Modal } from '@/components/Modal';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function ChatPage() {
   const { user, isLoggedIn, isLoading: authLoading, updateUser } = useAuth();
-  const [messages, setMessages] = useState<Array<{ text: string, type: 'sent' | 'received', timestamp: string }>>([
-    {
-      text: "Hi I am Sushrut, your Chief Medical Officer! How can I help you today?",
-      type: 'received',
-      timestamp: 'Just now'
-    }
-  ]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialChatId = searchParams.get('chatId');
+
+  const [chatId, setChatId] = useState<string | null>(initialChatId);
+  const [messages, setMessages] = useState<Array<{ text: string, type: 'sent' | 'received', timestamp: string }>>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isResponding, setIsResponding] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -33,13 +33,54 @@ export default function ChatPage() {
     type: 'info'
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   useEffect(() => {
     if (!authLoading && !isLoggedIn) {
       router.push('/login');
     }
   }, [isLoggedIn, authLoading, router]);
+
+  useEffect(() => {
+    if (isLoggedIn && !initialChatId) {
+      const newChatId = generateChatId();
+      router.replace(`/?chatId=${newChatId}`);
+      setChatId(newChatId);
+    } else if (initialChatId) {
+      setChatId(initialChatId);
+    }
+  }, [initialChatId, isLoggedIn, router]);
+
+  useEffect(() => {
+    if (chatId && isLoggedIn) {
+      loadChatHistory(chatId);
+    }
+  }, [chatId, isLoggedIn]);
+
+  const loadChatHistory = async (id: string) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ai/conversations/${id}/messages`);
+      if (response.ok) {
+        const history = await response.json();
+        if (history.length > 0) {
+          setMessages(history.map((m: any) => ({
+            text: m.text,
+            type: m.role === 'user' ? 'sent' : 'received',
+            timestamp: new Date(m.created_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+          })));
+        } else {
+          setMessages([
+            {
+              text: "Hi I am Sushrut, your Chief Medical Officer! How can I help you today?",
+              type: 'received',
+              timestamp: 'Just now'
+            }
+          ]);
+        }
+      }
+    } catch (err) {
+      console.error('Error loading chat history:', err);
+    }
+  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -56,7 +97,8 @@ export default function ChatPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text,
-          userId: (user?.id || user?.user_id || 'anonymous').toString()
+          userId: (user?.id || user?.user_id || 'anonymous').toString(),
+          chatId: chatId
         })
       });
 

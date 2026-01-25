@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { cn } from '@/lib/utils';
+import { cn, generateChatId } from '@/lib/utils';
 import {
     User as UserIcon,
     FileText,
@@ -12,11 +12,13 @@ import {
     ChevronRight,
     Languages,
     Activity,
-    Trash2,
+    Plus,
+    MessageSquare,
     Settings
 } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 interface SidebarProps {
     isOpen: boolean;
@@ -26,6 +28,37 @@ interface SidebarProps {
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
     const { user, logout, updateUser } = useAuth();
     const pathname = usePathname();
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const currentChatId = searchParams.get('chatId');
+
+    const [conversations, setConversations] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (user?.id || user?.user_id) {
+            fetchConversations();
+        }
+    }, [user, currentChatId]);
+
+    const fetchConversations = async () => {
+        try {
+            const userId = user?.id || user?.user_id;
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ai/conversations/${userId}`);
+            if (response.ok) {
+                const data = await response.json();
+                setConversations(data);
+            }
+        } catch (err) {
+            console.error('Error fetching conversations:', err);
+        }
+    };
+
+    const handleNewChat = () => {
+        const newChatId = generateChatId();
+        router.push(`/?chatId=${newChatId}`);
+        onClose();
+    };
 
     const metadata = user?.healthMetadata ? JSON.parse(user.healthMetadata) : {};
     const files = metadata.files || [];
@@ -122,6 +155,41 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                             <span className="flex-1">Settings</span>
                             <ChevronRight size={14} className="opacity-40" />
                         </Link>
+
+                        <div className="pt-4 pb-2 px-4">
+                            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Recent Chats</h3>
+                            <button
+                                onClick={handleNewChat}
+                                className="flex w-full items-center gap-3 px-4 py-2.5 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-all font-bold text-xs shadow-md shadow-indigo-100 mb-3"
+                            >
+                                <Plus size={14} />
+                                <span>New Chat</span>
+                            </button>
+
+                            <div className="space-y-1 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+                                {conversations.map((chat) => (
+                                    <Link
+                                        key={chat.id}
+                                        href={`/?chatId=${chat.id}`}
+                                        className={cn(
+                                            "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-xs font-semibold group",
+                                            currentChatId === chat.id ? "bg-indigo-50 text-indigo-600" : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                                        )}
+                                        onClick={onClose}
+                                    >
+                                        <MessageSquare size={14} className={cn(currentChatId === chat.id ? "text-indigo-600" : "text-slate-400 group-hover:text-slate-600")} />
+                                        <span className="flex-1 truncate">
+                                            {chat.title || 'New Conversation'}
+                                        </span>
+                                    </Link>
+                                ))}
+                                {conversations.length === 0 && (
+                                    <div className="text-center py-6 px-4 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
+                                        <p className="text-[10px] text-slate-400 font-medium">No previous chats found</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </nav>
 
                     <div className="p-4 bg-white border-t border-slate-100">

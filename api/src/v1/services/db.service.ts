@@ -35,4 +35,31 @@ export const initDb = async () => {
   } catch (e) {
     // Column might already exist, ignore error
   }
+
+  // Initialize voltagent memory tables
+  await client.execute(`
+    CREATE TABLE IF NOT EXISTS voltagent_memory_conversations (
+      id TEXT PRIMARY KEY,
+      resource_id TEXT NOT NULL,
+      user_id TEXT NOT NULL,
+      title TEXT NOT NULL,
+      metadata TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    )
+  `);
+
+  await client.execute(`
+    CREATE TABLE IF NOT EXISTS voltagent_memory_messages (
+      conversation_id TEXT NOT NULL,
+      message_id TEXT NOT NULL,
+      user_id TEXT NOT NULL,
+      role TEXT NOT NULL,
+      parts TEXT NOT NULL,
+      metadata TEXT,
+      format_version INTEGER DEFAULT 2,
+      created_at TEXT NOT NULL,
+      PRIMARY KEY (conversation_id, message_id)
+    )
+  `);
 };
