@@ -5,14 +5,14 @@ import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 import {
     User as UserIcon,
-    Settings,
     FileText,
     Image as ImageIcon,
     LogOut,
     X,
     ChevronRight,
     Languages,
-    Activity
+    Activity,
+    Trash2
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -90,67 +90,24 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                         </Link>
 
                         <Link
-                            href="/settings"
+                            href="/reports"
                             className={cn(
                                 "flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-semibold text-sm",
-                                pathname === '/settings' ? "bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                                pathname === '/reports' ? "bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
                             )}
                             onClick={onClose}
                         >
-                            <Settings size={18} />
-                            <span className="flex-1">Settings</span>
-                            <ChevronRight size={14} className="opacity-40" />
-                        </Link>
-
-                        <div className="pt-6 pb-2">
-                            <div className="px-4 text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em] mb-4">Medical Records</div>
-
-                            <div className="space-y-6">
-                                <div>
-                                    <h4 className="px-4 text-xs font-bold text-slate-900 mb-3 flex items-center gap-2">
-                                        <FileText size={14} className="text-indigo-600" />
-                                        PDF REPORTS
-                                    </h4>
-                                    <div className="space-y-1">
-                                        {pdfs.length > 0 ? pdfs.map((file: any, i: number) => (
-                                            <a
-                                                key={i}
-                                                href={file.url}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="block px-4 py-2 text-sm text-slate-500 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-all truncate font-medium"
-                                            >
-                                                {file.name}
-                                            </a>
-                                        )) : (
-                                            <p className="px-4 text-[11px] text-slate-400 italic">No reports uploaded</p>
-                                        )}
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <h4 className="px-4 text-xs font-bold text-slate-900 mb-3 flex items-center gap-2">
-                                        <ImageIcon size={14} className="text-indigo-600" />
-                                        VISUALS
-                                    </h4>
-                                    <div className="space-y-1">
-                                        {images.length > 0 ? images.map((file: any, i: number) => (
-                                            <a
-                                                key={i}
-                                                href={file.url}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="block px-4 py-2 text-sm text-slate-500 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-all truncate font-medium"
-                                            >
-                                                {file.name}
-                                            </a>
-                                        )) : (
-                                            <p className="px-4 text-[11px] text-slate-400 italic">No images uploaded</p>
-                                        )}
-                                    </div>
-                                </div>
+                            <FileText size={18} />
+                            <span className="flex-1">My Reports</span>
+                            <div className="flex items-center gap-1.5">
+                                {files.length > 0 && (
+                                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-indigo-600 text-[10px] text-white font-bold">
+                                        {files.length}
+                                    </span>
+                                )}
+                                <ChevronRight size={14} className="opacity-40" />
                             </div>
-                        </div>
+                        </Link>
                     </nav>
 
                     <div className="p-4 bg-slate-50 border-t border-slate-100 space-y-4">
