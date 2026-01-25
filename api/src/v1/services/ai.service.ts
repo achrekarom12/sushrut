@@ -115,15 +115,6 @@ async function getDefaultAgents() {
       General health includes normal flu, cold, cough, fever, etc.`,
       model: model,
       instructions: `Your role is to act as a generalist and provide information related to normal flu, cold, cough, fever, etc.`,
-    }),
-    new Agent({
-      name: `Lab Finder`,
-      purpose: `You are a lab finder in general health. Your task is to provide expert advice and information related to labs in the area.
-      You have a tool that can find the nearest lab for the user.
-      Use this tool whenever the user asks for a lab.`,
-      model: model,
-      instructions: `Your role is to act as a lab finder and provide information related to labs in the area.`,
-      tools: [findLabTool]
     })
   ]
 }
@@ -160,14 +151,14 @@ export async function initializeAgent(userName: string, age: number, gender: str
     name: "Chief Medical Officer",
     model: model,
     instructions: `You are a Chief Medical Officer dedicatedly deployed to help ${userName}. The user is ${age} years old and is ${gender}. 
-        Help users with their medical questions.
+        Help users with all their medical questions with the help of subagents you have.
         You have access to specialists for the following conditions: ${comorbidities.join(", ")}. 
         Use the subagents you have if the user's question relates to these conditions.
         Keep your responses short, concise and personalised.
         ALWAYS respond in ${languagePreference} as the user is most familiar with it.`,
     memory: memory,
-    subAgents: subagents
+    subAgents: subagents,
+    tools: [findLabTool]
   });
-  console.dir(agent, { depth: 2 });
   return agent;
 }
