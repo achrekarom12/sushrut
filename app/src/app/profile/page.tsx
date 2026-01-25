@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Sidebar } from '@/components/Sidebar';
-import { Menu, Save, Loader2, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { Menu, Save, Loader2, ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Modal } from '@/components/Modal';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -22,6 +23,17 @@ export default function ProfilePage() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [selectedComorbidities, setSelectedComorbidities] = useState<string[]>([]);
+    const [modal, setModal] = useState<{
+        isOpen: boolean;
+        title: string;
+        description: string;
+        type: 'info' | 'success' | 'warning' | 'error';
+    }>({
+        isOpen: false,
+        title: '',
+        description: '',
+        type: 'info'
+    });
     const router = useRouter();
 
     useEffect(() => {
@@ -65,13 +77,28 @@ export default function ProfilePage() {
             if (response.ok) {
                 const updatedUser = await response.json();
                 updateUser(updatedUser);
-                alert('Health profile updated!');
+                setModal({
+                    isOpen: true,
+                    title: 'Profile Updated',
+                    description: 'Your medical comorbidities and health details have been saved successfully.',
+                    type: 'success'
+                });
             } else {
-                alert('Failed to update profile.');
+                setModal({
+                    isOpen: true,
+                    title: 'Update Failed',
+                    description: 'We could not save your profile changes. Please try again.',
+                    type: 'error'
+                });
             }
         } catch (err) {
             console.error('Update error:', err);
-            alert('Unable to connect to the server.');
+            setModal({
+                isOpen: true,
+                title: 'Connection Error',
+                description: 'Unable to connect to the server. Please check your network.',
+                type: 'error'
+            });
         } finally {
             setIsSaving(false);
         }
@@ -171,6 +198,14 @@ export default function ProfilePage() {
                     </div>
                 </div>
             </main>
+
+            <Modal
+                isOpen={modal.isOpen}
+                onClose={() => setModal(prev => ({ ...prev, isOpen: false }))}
+                title={modal.title}
+                description={modal.description}
+                type={modal.type}
+            />
         </div>
     );
 }

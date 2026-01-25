@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Sidebar } from '@/components/Sidebar';
-import { Menu, Loader2, ArrowLeft, FileText, Image as ImageIcon, Trash2 } from 'lucide-react';
+import { Menu, Loader2, ArrowLeft, FileText, Image as ImageIcon, Trash2, AlertCircle } from 'lucide-react';
+import { Modal } from '@/components/Modal';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -12,6 +13,19 @@ export default function ReportsPage() {
     const { user, isLoggedIn, isLoading: authLoading, updateUser } = useAuth();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState<string | null>(null);
+    const [modal, setModal] = useState<{
+        isOpen: boolean;
+        title: string;
+        description: string;
+        type: 'info' | 'success' | 'warning' | 'error';
+        onConfirm?: () => void;
+        confirmLabel?: string;
+    }>({
+        isOpen: false,
+        title: '',
+        description: '',
+        type: 'info'
+    });
     const router = useRouter();
 
     useEffect(() => {
@@ -25,9 +39,7 @@ export default function ReportsPage() {
     const pdfs = files.filter((f: any) => f.name.toLowerCase().endsWith('.pdf'));
     const images = files.filter((f: any) => /\.(jpg|jpeg|png|gif|webp)$/i.test(f.name));
 
-    const handleDeleteFile = async (fileUrl: string) => {
-        if (!confirm('Are you sure you want to delete this report?')) return;
-
+    const performDeleteFile = async (fileUrl: string) => {
         setIsDeleting(fileUrl);
         try {
             const updatedFiles = files.filter((f: any) => f.url !== fileUrl);
@@ -42,14 +54,36 @@ export default function ReportsPage() {
             if (response.ok) {
                 updateUser({ healthMetadata: JSON.stringify(updatedMetadata) });
             } else {
-                alert('Failed to delete report.');
+                setModal({
+                    isOpen: true,
+                    title: 'Delete Failed',
+                    description: 'Could not delete the report. Please try again.',
+                    type: 'error'
+                });
             }
         } catch (err) {
             console.error('Delete report error:', err);
-            alert('Error deleting report.');
+            setModal({
+                isOpen: true,
+                title: 'Error',
+                description: 'An error occurred while deleting the report.',
+                type: 'error'
+            });
         } finally {
             setIsDeleting(null);
+            setModal(prev => ({ ...prev, isOpen: false }));
         }
+    };
+
+    const handleDeleteFile = (fileUrl: string) => {
+        setModal({
+            isOpen: true,
+            title: 'Delete Report?',
+            description: 'Are you sure you want to delete this medical document? This action cannot be reversed.',
+            type: 'warning',
+            confirmLabel: 'Delete',
+            onConfirm: () => performDeleteFile(fileUrl)
+        });
     };
 
     if (authLoading || !isLoggedIn) {
@@ -200,6 +234,17 @@ export default function ReportsPage() {
                     </section>
                 </div>
             </main>
+
+            <Modal
+                isOpen={modal.isOpen}
+                onClose={() => setModal(prev => ({ ...prev, isOpen: false }))}
+                title={modal.title}
+                description={modal.description}
+                type={modal.type}
+                confirmLabel={modal.confirmLabel}
+                onConfirm={modal.onConfirm}
+                isLoading={!!isDeleting}
+            />
         </div>
     );
 }

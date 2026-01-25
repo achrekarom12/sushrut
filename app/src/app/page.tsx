@@ -5,7 +5,8 @@ import { useAuth } from '@/context/AuthContext';
 import { Sidebar } from '@/components/Sidebar';
 import { Message } from '@/components/Message';
 import { ChatInput } from '@/components/ChatInput';
-import { Menu, User, Loader2, Hospital } from 'lucide-react';
+import { Menu, User, Loader2, Hospital, AlertCircle } from 'lucide-react';
+import { Modal } from '@/components/Modal';
 import { useRouter } from 'next/navigation';
 
 export default function ChatPage() {
@@ -20,6 +21,17 @@ export default function ChatPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isResponding, setIsResponding] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [modal, setModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    description: string;
+    type: 'info' | 'success' | 'warning' | 'error';
+  }>({
+    isOpen: false,
+    title: '',
+    description: '',
+    type: 'info'
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -98,11 +110,21 @@ export default function ChatPage() {
           }]);
         }, 1000);
       } else {
-        alert('Failed to upload report.');
+        setModal({
+          isOpen: true,
+          title: 'Upload Failed',
+          description: 'The medical report could not be uploaded. Please check the file format and size.',
+          type: 'error'
+        });
       }
     } catch (err) {
       console.error('Upload error:', err);
-      alert('Unable to connect to the server for upload.');
+      setModal({
+        isOpen: true,
+        title: 'Connection Error',
+        description: 'Could not connect to the medical server for document upload.',
+        type: 'error'
+      });
     } finally {
       setIsUploading(false);
     }
@@ -179,6 +201,14 @@ export default function ChatPage() {
           />
         </div>
       </main>
+
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={() => setModal(prev => ({ ...prev, isOpen: false }))}
+        title={modal.title}
+        description={modal.description}
+        type={modal.type}
+      />
     </div>
   );
 }
