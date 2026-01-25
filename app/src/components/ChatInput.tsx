@@ -77,8 +77,8 @@ export function ChatInput({ onSendMessage, onFileUpload, isUploading, isRespondi
                     <Send size={22} />
                 </button>
             </form>
-            <p className="mt-3 text-center text-[10px] text-slate-400 font-medium uppercase tracking-[0.2em]">
-                AI Medical advice should be verified with a professional.
+            <p className="mt-2 text-[10px] text-center text-slate-400 font-medium select-none">
+                AI Medical advice should be always verified with a doctor.
             </p>
         </div>
     );

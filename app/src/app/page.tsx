@@ -209,8 +209,21 @@ function ChatContent() {
           </div>
         </header>
 
+        {/* Watermark Pattern */}
+        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden opacity-[0.04] z-0 flex flex-col gap-16 py-20 -rotate-12 scale-125">
+          {[...Array(12)].map((_, i) => (
+            <div key={i} className={`flex whitespace-nowrap gap-12 ${i % 2 === 0 ? 'ml-[-100px]' : 'ml-[0px]'}`}>
+              {[...Array(6)].map((_, j) => (
+                <span key={j} className="text-sm font-semibold uppercase text-slate-900">
+                  This is AI Generated Medical advice and <br/> should be always verified with a doctor
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-[#f8fafc]/30">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-[#f8fafc]/10 relative z-10">
           <div className="max-w-3xl mx-auto py-4">
             {messages.map((msg, i) => (
               <Message key={i} {...msg} />
@@ -251,7 +264,7 @@ function ChatContent() {
         description={modal.description}
         type={modal.type}
       />
-    </div>
+    </div >
   );
 }
 

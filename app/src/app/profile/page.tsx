@@ -125,9 +125,6 @@ export default function ProfilePage() {
                         >
                             <Menu size={20} />
                         </button>
-                        <Link href="/" className="p-2 rounded-xl hover:bg-slate-50 transition-colors text-slate-400 hover:text-indigo-600">
-                            <ArrowLeft size={20} />
-                        </Link>
                         <h2 className="text-lg font-bold">Health Profile</h2>
                     </div>
                 </header>
