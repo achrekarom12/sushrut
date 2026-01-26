@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Sidebar } from '@/components/Sidebar';
-import { Menu, ArrowLeft, Languages, Check, Loader2, Trash2, AlertCircle } from 'lucide-react';
+import { Menu, ArrowLeft, Languages, Check, Loader2, Trash2, AlertCircle, MapPin } from 'lucide-react';
 import { Modal } from '@/components/Modal';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -20,6 +20,7 @@ export default function SettingsPage() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeletingVault, setIsDeletingVault] = useState(false);
+    const [isLocationLoading, setIsLocationLoading] = useState(false);
     const [modal, setModal] = useState<{
         isOpen: boolean;
         title: string;
@@ -58,6 +59,101 @@ export default function SettingsPage() {
             console.error('Language update error:', err);
         } finally {
             setIsUpdating(false);
+        }
+    };
+
+    const handleLocationToggle = async () => {
+        const newConsent = !user?.locationConsent;
+
+        if (newConsent) {
+            setIsLocationLoading(true);
+            if (!("geolocation" in navigator)) {
+                setModal({
+                    isOpen: true,
+                    title: 'Not Supported',
+                    description: 'Geolocation is not supported by your browser.',
+                    type: 'error'
+                });
+                setIsLocationLoading(false);
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    try {
+                        const { latitude, longitude } = position.coords;
+                        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${user?.id}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                locationConsent: true,
+                                latitude,
+                                longitude
+                            }),
+                        });
+                        if (response.ok) {
+                            updateUser({
+                                locationConsent: true,
+                                latitude,
+                                longitude
+                            });
+                        }
+                    } catch (err) {
+                        console.error('Location update error:', err);
+                    } finally {
+                        setIsLocationLoading(false);
+                    }
+                },
+                (error) => {
+                    console.error('Geolocation error:', error);
+                    let title = 'Location Error';
+                    let message = 'Please enable location access in your browser settings to share your location.';
+
+                    if (!window.isSecureContext) {
+                        message = 'Location access requires a secure connection (HTTPS or localhost). Please check your URL.';
+                    } else if (error.code === error.PERMISSION_DENIED) {
+                        title = 'Permission Denied';
+                        message = 'Location access was denied. Please allow location permissions in your browser settings for this site.';
+                    } else if (error.code === error.POSITION_UNAVAILABLE) {
+                        message = 'Your location information is currently unavailable.';
+                    } else if (error.code === error.TIMEOUT) {
+                        message = 'The request to get your location timed out.';
+                    }
+
+                    setModal({
+                        isOpen: true,
+                        title,
+                        description: message,
+                        type: 'warning'
+                    });
+                    setIsLocationLoading(false);
+                },
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            );
+        } else {
+            setIsUpdating(true);
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${user?.id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        locationConsent: false,
+                        latitude: null,
+                        longitude: null
+                    }),
+                });
+                if (response.ok) {
+                    updateUser({
+                        locationConsent: false,
+                        latitude: undefined,
+                        longitude: undefined
+                    });
+                }
+            } catch (err) {
+                console.error('Location disable error:', err);
+            } finally {
+                setIsUpdating(false);
+            }
         }
     };
 
@@ -180,6 +276,60 @@ export default function SettingsPage() {
                                     </button>
                                 );
                             })}
+                        </div>
+                    </div>
+
+                    <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-700 delay-100">
+                        <div className="px-2">
+                            <div className="flex items-center gap-3 mb-1">
+                                <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+                                    <MapPin size={20} />
+                                </div>
+                                <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Location Access</h4>
+                            </div>
+                            <p className="text-sm text-slate-400 font-medium ml-12">Enable location sharing for better healthcare assistance</p>
+                        </div>
+
+                        <div className="bg-white/40 backdrop-blur-md border border-white/40 rounded-2xl overflow-hidden shadow-sm">
+                            <div className="p-6">
+                                <div className="flex items-center justify-between gap-6">
+                                    <div className="space-y-1">
+                                        <h5 className="font-bold text-slate-900">Share Current Location</h5>
+                                        <p className="text-sm text-slate-500 max-w-md">
+                                            Allow the app to access your current location to provide localized medical suggestions.
+                                        </p>
+                                    </div>
+                                    <button
+                                        onClick={handleLocationToggle}
+                                        disabled={isLocationLoading || isUpdating}
+                                        className={cn(
+                                            "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2",
+                                            user?.locationConsent ? "bg-indigo-600" : "bg-slate-200"
+                                        )}
+                                    >
+                                        <span
+                                            aria-hidden="true"
+                                            className={cn(
+                                                "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                                                user?.locationConsent ? "translate-x-5" : "translate-x-0"
+                                            )}
+                                        />
+                                        {isLocationLoading && (
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <Loader2 size={12} className="animate-spin text-white" />
+                                            </div>
+                                        )}
+                                    </button>
+                                </div>
+                                {user?.locationConsent && user?.latitude && (
+                                    <div className="mt-4 pt-4 border-t border-slate-100/50">
+                                        <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                                            <span>Location active: {user.latitude.toFixed(4)}, {user.longitude?.toFixed(4)}</span>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 

@@ -18,6 +18,9 @@ export const initDb = async () => {
       password TEXT,
       healthMetadata TEXT,
       languagePreference TEXT DEFAULT 'english',
+      locationConsent INTEGER DEFAULT 0,
+      latitude REAL,
+      longitude REAL,
       createdAt TEXT NOT NULL
     )
   `);
@@ -32,6 +35,23 @@ export const initDb = async () => {
   // Ensure languagePreference column exists for existing tables
   try {
     await client.execute("ALTER TABLE users ADD COLUMN languagePreference TEXT DEFAULT 'english'");
+  } catch (e) {
+    // Column might already exist, ignore error
+  }
+
+  // Ensure location columns exist for existing tables
+  try {
+    await client.execute("ALTER TABLE users ADD COLUMN locationConsent INTEGER DEFAULT 0");
+  } catch (e) {
+    // Column might already exist, ignore error
+  }
+  try {
+    await client.execute("ALTER TABLE users ADD COLUMN latitude REAL");
+  } catch (e) {
+    // Column might already exist, ignore error
+  }
+  try {
+    await client.execute("ALTER TABLE users ADD COLUMN longitude REAL");
   } catch (e) {
     // Column might already exist, ignore error
   }

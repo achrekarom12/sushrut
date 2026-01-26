@@ -5,7 +5,7 @@ import { db } from './db.service';
 class UserService {
     async getAll(): Promise<User[]> {
         const result = await db.execute('SELECT * FROM users');
-        return result.rows as unknown as User[];
+        return result.rows.map(row => this.normalizeUser(row as any));
     }
 
     async getById(id: string): Promise<User | undefined> {
@@ -13,7 +13,8 @@ class UserService {
             sql: 'SELECT * FROM users WHERE id = ?',
             args: [id]
         });
-        return result.rows[0] as unknown as User | undefined;
+        const row = result.rows[0];
+        return row ? this.normalizeUser(row as any) : undefined;
     }
 
     async getByPhonenumber(phonenumber: string): Promise<User | undefined> {
@@ -21,7 +22,15 @@ class UserService {
             sql: 'SELECT * FROM users WHERE phonenumber = ?',
             args: [phonenumber]
         });
-        return result.rows[0] as unknown as User | undefined;
+        const row = result.rows[0];
+        return row ? this.normalizeUser(row as any) : undefined;
+    }
+
+    private normalizeUser(user: any): User {
+        return {
+            ...user,
+            locationConsent: user.locationConsent === 1
+        };
     }
 
     async create(userData: CreateUserDTO): Promise<User> {
@@ -30,7 +39,7 @@ class UserService {
         const languagePreference = userData.languagePreference || 'english';
 
         await db.execute({
-            sql: 'INSERT INTO users (id, name, age, phonenumber, gender, password, healthMetadata, languagePreference, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            sql: 'INSERT INTO users (id, name, age, phonenumber, gender, password, healthMetadata, languagePreference, locationConsent, latitude, longitude, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             args: [
                 id,
                 userData.name,
@@ -40,6 +49,9 @@ class UserService {
                 userData.password || null,
                 userData.healthMetadata || null,
                 languagePreference,
+                userData.locationConsent ? 1 : 0,
+                userData.latitude || null,
+                userData.longitude || null,
                 createdAt
             ]
         });
@@ -64,10 +76,13 @@ class UserService {
             password: userData.password ?? currentUser.password,
             healthMetadata: userData.healthMetadata ?? currentUser.healthMetadata,
             languagePreference: userData.languagePreference ?? currentUser.languagePreference,
+            locationConsent: userData.locationConsent ?? currentUser.locationConsent,
+            latitude: userData.latitude ?? currentUser.latitude,
+            longitude: userData.longitude ?? currentUser.longitude,
         };
 
         await db.execute({
-            sql: 'UPDATE users SET name = ?, age = ?, phonenumber = ?, gender = ?, password = ?, healthMetadata = ?, languagePreference = ? WHERE id = ?',
+            sql: 'UPDATE users SET name = ?, age = ?, phonenumber = ?, gender = ?, password = ?, healthMetadata = ?, languagePreference = ?, locationConsent = ?, latitude = ?, longitude = ? WHERE id = ?',
             args: [
                 updatedUser.name,
                 updatedUser.age,
@@ -76,6 +91,9 @@ class UserService {
                 updatedUser.password || null,
                 updatedUser.healthMetadata || null,
                 updatedUser.languagePreference || 'english',
+                updatedUser.locationConsent ? 1 : 0,
+                updatedUser.latitude || null,
+                updatedUser.longitude || null,
                 id
             ]
         });

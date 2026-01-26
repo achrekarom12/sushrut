@@ -7,6 +7,9 @@ export interface User {
   password?: string;
   healthMetadata?: string;
   languagePreference?: string;
+  locationConsent?: boolean;
+  latitude?: number;
+  longitude?: number;
   createdAt: string;
 }
 
@@ -18,6 +21,9 @@ export interface CreateUserDTO {
   password?: string;
   healthMetadata?: string;
   languagePreference?: string;
+  locationConsent?: boolean;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface UpdateUserDTO {
@@ -28,6 +34,9 @@ export interface UpdateUserDTO {
   password?: string;
   healthMetadata?: string;
   languagePreference?: string;
+  locationConsent?: boolean;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface LoginDTO {

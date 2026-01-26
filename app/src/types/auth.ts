@@ -7,6 +7,9 @@ export interface User {
     phonenumber: string;
     healthMetadata?: string; // JSON string
     languagePreference?: string;
+    locationConsent?: boolean;
+    latitude?: number;
+    longitude?: number;
 }
 
 export interface AuthState {
