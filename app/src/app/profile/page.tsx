@@ -18,9 +18,11 @@ const COMORBIDITIES = [
     { id: 'kidney_disease', label: 'Kidney Disease' },
 ];
 
+import { useSidebar } from '@/context/SidebarContext';
+
 export default function ProfilePage() {
     const { user, isLoggedIn, isLoading: authLoading, updateUser } = useAuth();
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { open: openSidebar } = useSidebar();
     const [isSaving, setIsSaving] = useState(false);
     const [selectedComorbidities, setSelectedComorbidities] = useState<string[]>([]);
     const [modal, setModal] = useState<{
@@ -114,13 +116,13 @@ export default function ProfilePage() {
 
     return (
         <div className="flex h-screen bg-transparent overflow-hidden text-slate-900">
-            <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+            <Sidebar />
 
             <main className="flex-1 flex flex-col min-w-0 bg-transparent overflow-y-auto">
                 <header className="flex items-center justify-between px-6 py-4 bg-white/60 backdrop-blur-xl border-b border-white/20 sticky top-0 z-10">
                     <div className="flex items-center gap-4">
                         <button
-                            onClick={() => setSidebarOpen(true)}
+                            onClick={openSidebar}
                             className="lg:hidden p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors"
                         >
                             <Menu size={20} />

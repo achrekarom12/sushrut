@@ -18,14 +18,15 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useSidebar } from '@/context/SidebarContext';
 
 interface SidebarProps {
-    isOpen: boolean;
-    onClose: () => void;
+    isOpen?: boolean;
+    onClose?: () => void;
 }
 
-function SidebarContent({ isOpen, onClose }: SidebarProps) {
+function SidebarContent() {
+    const { isOpen, close: onClose } = useSidebar();
     const { user, logout, updateUser } = useAuth();
     const pathname = usePathname();
     const router = useRouter();
@@ -62,7 +63,7 @@ function SidebarContent({ isOpen, onClose }: SidebarProps) {
                             <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
                                 <Activity size={18} />
                             </div>
-                            <span className="font-bold text-slate-900">Dashboard</span>
+                            <span className="font-bold text-slate-900">Sushrut</span>
                         </div>
                         <button onClick={onClose} className="lg:hidden p-2 rounded-xl hover:bg-slate-50 text-slate-400">
                             <X size={20} />
@@ -157,12 +158,12 @@ function SidebarContent({ isOpen, onClose }: SidebarProps) {
     );
 }
 
-export function Sidebar(props: SidebarProps) {
+export function Sidebar(_props: SidebarProps) {
     return (
         <Suspense fallback={
             <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white/70 backdrop-blur-xl border-r border-white/20 lg:relative shadow-2xl lg:shadow-none animate-pulse" />
         }>
-            <SidebarContent {...props} />
+            <SidebarContent />
         </Suspense>
     );
 }

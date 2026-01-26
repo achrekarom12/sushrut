@@ -10,15 +10,17 @@ import { Menu, User, Loader2, Hospital, AlertCircle } from 'lucide-react';
 import { Modal } from '@/components/Modal';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import { useSidebar } from '@/context/SidebarContext';
+
 function ChatContent() {
   const { user, isLoggedIn, isLoading: authLoading, updateUser } = useAuth();
+  const { open: openSidebar } = useSidebar();
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialChatId = searchParams.get('chatId');
 
   const [chatId, setChatId] = useState<string | null>(initialChatId);
   const [messages, setMessages] = useState<Array<{ text: string, type: 'sent' | 'received', timestamp: string }>>([]);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isResponding, setIsResponding] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [modal, setModal] = useState<{
@@ -205,14 +207,14 @@ function ChatContent() {
 
   return (
     <div className="flex h-screen bg-transparent overflow-hidden text-slate-900">
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar />
 
       <main className="flex-1 flex flex-col min-w-0 bg-transparent relative">
         {/* Header */}
         <header className="flex items-center justify-between px-6 py-4 bg-white/60 backdrop-blur-xl border-b border-white/20 z-30 sticky top-0">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setSidebarOpen(true)}
+              onClick={openSidebar}
               className="lg:hidden p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors"
             >
               <Menu size={20} />
