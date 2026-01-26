@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Sidebar } from '@/components/Sidebar';
-import { Menu, MessageSquare, Trash2, Calendar, Clock, ChevronRight, Loader2, Hospital } from 'lucide-react';
+import { Menu, MessageSquare, Trash2, Calendar, Clock, ChevronRight, Loader2 } from 'lucide-react';
 import { Modal } from '@/components/Modal';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';

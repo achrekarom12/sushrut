@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@/lib/utils';
+import { Stethoscope } from 'lucide-react';
 
 interface MessageProps {
     text: string;
@@ -23,8 +24,8 @@ export function Message({ text, type, timestamp }: MessageProps) {
                 !isReceived && "flex-row-reverse"
             )}>
                 {isReceived && (
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-sm border border-indigo-100/50">
-                        🏥
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100/50">
+                        <Stethoscope size={16} />
                     </div>
                 )}
                 <div className="flex flex-col gap-1.5 min-w-0">

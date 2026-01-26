@@ -11,10 +11,10 @@ import {
     X,
     ChevronRight,
     Languages,
-    Activity,
     Plus,
     MessageSquare,
-    Settings
+    Settings,
+    Stethoscope
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -61,7 +61,7 @@ function SidebarContent() {
                     <div className="flex items-center justify-between p-6">
                         <div className="flex items-center gap-2.5">
                             <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
-                                <Activity size={18} />
+                                <Stethoscope size={18} />
                             </div>
                             <span className="font-bold text-slate-900">Sushrut</span>
                         </div>

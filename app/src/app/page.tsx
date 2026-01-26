@@ -6,7 +6,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { Message } from '@/components/Message';
 import { ChatInput } from '@/components/ChatInput';
 import { generateChatId } from '@/lib/utils';
-import { Menu, User, Loader2, Hospital, AlertCircle } from 'lucide-react';
+import { Menu, User, Loader2, Stethoscope, AlertCircle } from 'lucide-react';
 import { Modal } from '@/components/Modal';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -221,7 +221,7 @@ function ChatContent() {
             </button>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-100">
-                <Hospital size={20} />
+                <Stethoscope size={20} />
               </div>
               <div>
                 <h2 className="text-md font-semibold text-slate-900 leading-tight">Sushrut</h2>
@@ -261,14 +261,16 @@ function ChatContent() {
               <Message key={i} {...msg} />
             ))}
             {isResponding && (
-              <div className="flex justify-start mb-6">
-                <div className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-sm">🏥</div>
-                  <div className="bg-white px-4 py-3 rounded-2xl rounded-tl-none border border-slate-200 shadow-sm">
-                    <div className="flex gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-slate-300 animate-bounce"></span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-slate-300 animate-bounce delay-150"></span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-slate-300 animate-bounce delay-300"></span>
+              <div className="flex justify-start mb-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <div className="flex gap-3 items-end">
+                  <div className="w-8 h-8 rounded-full bg-indigo-50 border border-indigo-100/50 flex items-center justify-center text-indigo-600 shadow-sm">
+                    <Stethoscope size={15} />
+                  </div>
+                  <div className="bg-white/60 backdrop-blur-md px-4 py-3 rounded-2xl rounded-tl-none border border-white/40 shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
+                    <div className="flex gap-1.5 items-center h-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-400/50 animate-bounce [animation-duration:1s]"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-400/50 animate-bounce [animation-duration:1s] [animation-delay:0.2s]"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-400/50 animate-bounce [animation-duration:1s] [animation-delay:0.4s]"></span>
                     </div>
                   </div>
                 </div>
@@ -279,13 +281,15 @@ function ChatContent() {
         </div>
 
         {/* Input area */}
-        <div className="max-w-3xl mx-auto w-full relative z-20">
-          <ChatInput
-            onSendMessage={handleSendMessage}
-            onFileUpload={handleFileUpload}
-            isUploading={isUploading}
-            isResponding={isResponding}
-          />
+        <div className="w-full relative z-20 pb-0 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.05)]">
+          <div className="max-w-3xl mx-auto">
+            <ChatInput
+              onSendMessage={handleSendMessage}
+              onFileUpload={handleFileUpload}
+              isUploading={isUploading}
+              isResponding={isResponding}
+            />
+          </div>
         </div>
       </main>
 

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { Loader2, Hospital } from 'lucide-react';
+import { Loader2, Stethoscope } from 'lucide-react';
 
 export default function LoginPage() {
     const [mobile, setMobile] = useState('');
@@ -45,7 +45,7 @@ export default function LoginPage() {
             <div className="w-full max-w-[400px] space-y-8">
                 <div className="text-center space-y-2">
                     <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
-                        <Hospital size={32} />
+                        <Stethoscope size={32} />
                     </div>
                     <h1 className="text-3xl font-bold tracking-tight text-slate-900">Sushrut</h1>
                     <p className="text-slate-500 font-medium">Your AI Chief Medical Officer</p>
