@@ -30,7 +30,7 @@ export function Message({ text, type, timestamp }: MessageProps) {
                 )}
                 <div className="flex flex-col gap-1.5 min-w-0">
                     <div className={cn(
-                        "px-5 py-3.5 rounded-[1.5rem] text-[15px] leading-relaxed shadow-sm",
+                        "px-5 py-3.5 rounded-[1.5rem] text-sm leading-relaxed shadow-sm",
                         isReceived
                             ? "bg-white/60 backdrop-blur-md border border-white/40 text-slate-800 rounded-tl-none shadow-[0_4px_12px_rgba(0,0,0,0.03)]"
                             : "bg-indigo-600/90 backdrop-blur-md text-white rounded-tr-none shadow-[0_4px_12px_rgba(79,70,229,0.3)]"

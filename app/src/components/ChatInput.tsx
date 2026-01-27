@@ -89,7 +89,7 @@ export function ChatInput({ onSendMessage, onFileUpload, isUploading, isRespondi
                             }
                         }}
                         placeholder="Ask Sushrut..."
-                        className="flex-1 max-h-[200px] min-h-[46px] py-3 text-[15px] text-slate-800 placeholder:text-slate-400 bg-transparent border-none focus:ring-0 resize-none leading-relaxed transition-all"
+                        className="flex-1 max-h-[200px] min-h-[46px] py-3 text-sm text-slate-800 placeholder:text-slate-400 bg-transparent border-none focus:ring-0 resize-none leading-relaxed transition-all"
                         rows={1}
                     />
 
