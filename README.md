@@ -1,6 +1,6 @@
 # 🏥 Sushrut: AI-Powered Healthcare Assistant
 
-Sushrut is a modern, AI-driven healthcare platform designed to provide accessible medical information 
+Sushrut is a fleet of agents which has their own speciality in single domain and trained using standard treatment guidelines provided by MoHFW.
 
 ## Live Demo: [Sushrut AI](https://sushrut-ai.netlify.app/)
 
